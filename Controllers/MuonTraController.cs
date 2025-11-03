@@ -4,7 +4,7 @@ namespace ThuVienSo.Controllers
 {
     public class MuonTraController : Controller
     {
-        public IActionResult MuonTra()
+        public IActionResult Index()
         {
             return View();
         }

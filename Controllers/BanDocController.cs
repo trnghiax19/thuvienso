@@ -2,14 +2,14 @@
 
 namespace ThuVienSo.Controllers
 {
-    public class CatalogingController : Controller
+    public class BanDocController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Dictionary()
+        public IActionResult BanDocChiTiet()
         {
             return View();
         }

@@ -2,11 +2,11 @@
 
 namespace ThuVienSo.Controllers
 {
-    public class LookUpController : Controller
+    public class TimKiemController : Controller
     {
-        private readonly ILogger<LookUpController> _logger;
+        private readonly ILogger<TimKiemController> _logger;
 
-        public LookUpController(ILogger<LookUpController> logger)
+        public TimKiemController(ILogger<TimKiemController> logger)
         {
             _logger = logger;
         }
@@ -15,7 +15,7 @@ namespace ThuVienSo.Controllers
             return View();
         }
 
-        public IActionResult Collection()
+        public IActionResult BoSuuTap()
         {
             return View();
         }

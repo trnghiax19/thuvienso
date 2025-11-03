@@ -2,11 +2,11 @@
 
 namespace ThuVienSo.Controllers
 {
-    public class NotificationController : Controller
+    public class ThongBaoController : Controller
     {
-        private readonly ILogger<NotificationController> _logger;
+        private readonly ILogger<ThongBaoController> _logger;
 
-        public NotificationController(ILogger<NotificationController> logger)
+        public ThongBaoController(ILogger<ThongBaoController> logger)
         {
             _logger = logger;
         }

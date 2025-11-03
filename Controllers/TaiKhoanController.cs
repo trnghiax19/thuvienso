@@ -2,13 +2,13 @@
 
 namespace ThuVienSo.Controllers
 {
-    public class AuthenticatorController : Controller
+    public class TaiKhoanController : Controller
     {
-        public IActionResult login()
+        public IActionResult DangNhap()
         {
             return View();
         }
-        public IActionResult register()
+        public IActionResult DangKy()
         {
             return View();
         }

@@ -45,7 +45,7 @@
                 <td>${r.stt}</td>
                 <td>${r.code}</td>
                 <td>
-                    <a href="/Reader/ReaderDetail" class="reader-link">
+                    <a href="/BanDoc/BanDocChiTiet" class="reader-link">
                         ${r.name}<br>
                         <small><i class="fa fa-envelope"></i> <span class="email"> ${r.email}</span></small><br>
                         <small><i class="fa fa-users"></i> Nhóm: ${r.group}</small>

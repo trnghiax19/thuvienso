@@ -2,14 +2,14 @@
 
 namespace ThuVienSo.Controllers
 {
-    public class ReaderController : Controller
+    public class BienMucController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult ReaderDetail()
+        public IActionResult TuDien()
         {
             return View();
         }

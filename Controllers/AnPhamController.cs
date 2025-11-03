@@ -4,7 +4,7 @@ namespace ThuVienSo.Controllers
 {
     public class AnPhamController : Controller
     {
-        public IActionResult AnPham()
+        public IActionResult Index()
         {
             return View();
         }

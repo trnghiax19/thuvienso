@@ -2,7 +2,7 @@
 
 namespace ThuVienSo.Controllers
 {
-    public class AcquisitionsController : Controller
+    public class BoSungController : Controller
     {
         public IActionResult Index()
         {

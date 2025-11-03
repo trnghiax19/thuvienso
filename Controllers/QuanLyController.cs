@@ -2,11 +2,11 @@
 
 namespace ThuVienSo.Controllers
 {
-    public class AdminController : Controller
+    public class QuanLyController : Controller
     {
-        private readonly ILogger<AdminController> _logger;
+        private readonly ILogger<QuanLyController> _logger;
 
-        public AdminController(ILogger<AdminController> logger)
+        public QuanLyController(ILogger<QuanLyController> logger)
         {
             _logger = logger;
         }

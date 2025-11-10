@@ -1287,8 +1287,6 @@ Chỉ áp dụng trong .serials-page
         color: white;
         text-align: left;
         padding: 10px;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
     }
 
     #bindingTable td {
@@ -1625,7 +1623,6 @@ Chỉ áp dụng trong .serials-page
         border: 1px solid #e5e7eb;
         border-radius: 12px;
         padding: 20px;
-        max-width: 600px;
         margin: 0 auto;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
@@ -1839,7 +1836,6 @@ Chỉ áp dụng trong .serials-page
         border: 1px solid #e5e7eb;
         border-radius: 12px;
         padding: 20px;
-        max-width: 600px;
         margin: 0 auto;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }

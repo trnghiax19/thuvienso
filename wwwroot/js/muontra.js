@@ -1,836 +1,995 @@
 ﻿
-    // ================== DỮ LIỆU MẪU ==================
-    const readers = [
-    {id: "BD001", name: "Nguyễn Văn A", phone: "0912345678", location: "Kho A", priority: 3 },
-    {id: "BD002", name: "Trần Thị B", phone: "0978123456", location: "Kho B", priority: 2 },
-    {id: "BD003", name: "Lê Văn C", phone: "0909123123", location: "Kho C", priority: 3 },
-    {id: "BD004", name: "Phạm Thị D", phone: "0933222111", location: "Khoa Toán", priority: 1 },
-    {id: "BD005", name: "Ngô Văn E", phone: "0988777666", location: "Khoa Lý", priority: 2 },
-    {id: "BD006", name: "Đỗ Thị F", phone: "0944333222", location: "Khoa Hóa", priority: 3 },
-    {id: "BD007", name: "Hoàng Văn G", phone: "0911456789", location: "Khoa CNTT", priority: 1 },
-    {id: "BD008", name: "Phan Thị H", phone: "0922567890", location: "Kho D", priority: 2 },
-    {id: "BD009", name: "Trương Văn I", phone: "0933123456", location: "Kho E", priority: 3 },
-    {id: "BD010", name: "Bùi Thị K", phone: "0909998888", location: "Khoa Sinh", priority: 2 }
-    ];
+(function ($) {
+  "use strict";
 
-    const sampleBooks = [
-    {code: "S001", name: "Lập trình C# cơ bản", type: "Giáo trình", location: "Kho A" },
-    {code: "S002", name: "Cấu trúc dữ liệu", type: "Giáo trình", location: "Kho A" },
-    {code: "S003", name: "Giải tích 1", type: "Tham khảo", location: "Kho B" },
-    {code: "S004", name: "Công nghệ phần mềm", type: "Giáo trình", location: "Kho B" },
-    {code: "S005", name: "Cơ sở dữ liệu nâng cao", type: "Giáo trình", location: "Kho A" },
-    {code: "S006", name: "Lập trình Python", type: "Giáo trình", location: "Kho C" },
-    {code: "S007", name: "Mạng máy tính", type: "Tham khảo", location: "Kho A" },
-    {code: "S008", name: "Trí tuệ nhân tạo", type: "Tham khảo", location: "Kho C" },
-    {code: "S009", name: "Phân tích thiết kế hệ thống", type: "Giáo trình", location: "Kho B" },
-    {code: "S010", name: "Lập trình Java nâng cao", type: "Giáo trình", location: "Kho C" },
-    {code: "S011", name: "Xử lý tín hiệu số", type: "Tham khảo", location: "Kho B" },
-    {code: "S012", name: "Thuật toán tối ưu", type: "Tham khảo", location: "Kho C" },
-    {code: "S013", name: "Nguyên lý hệ điều hành", type: "Giáo trình", location: "Kho A" },
-    {code: "S014", name: "Quản trị dự án CNTT", type: "Tham khảo", location: "Kho B" },
-    {code: "S015", name: "Kỹ thuật lập trình hướng đối tượng", type: "Giáo trình", location: "Kho C" }
-    ];
-    // ================== DỮ LIỆU GIẢ MƯỢN TRẢ ==================
-    const muonTraList = [
-    {id: 1, reader: "Nguyễn Văn A", book: "Lập trình C#", borrowDate: "01/10/2025", returnDate: "15/10/2025" },
-    {id: 2, reader: "Trần Thị B", book: "Cấu trúc dữ liệu", borrowDate: "02/10/2025", returnDate: "16/10/2025" },
-    {id: 3, reader: "Lê Văn C", book: "Giải tích 1", borrowDate: "03/10/2025", returnDate: "17/10/2025" },
-    {id: 4, reader: "Phạm Thị D", book: "Công nghệ phần mềm", borrowDate: "04/10/2025", returnDate: "18/10/2025" },
-    {id: 5, reader: "Ngô Văn E", book: "Lập trình Python", borrowDate: "05/10/2025", returnDate: "19/10/2025" },
-    {id: 6, reader: "Đỗ Thị F", book: "Cơ sở dữ liệu nâng cao", borrowDate: "06/10/2025", returnDate: "20/10/2025" },
-    {id: 7, reader: "Hoàng Văn G", book: "Trí tuệ nhân tạo", borrowDate: "07/10/2025", returnDate: "21/10/2025" },
-    {id: 8, reader: "Phan Thị H", book: "Lập trình Java nâng cao", borrowDate: "08/10/2025", returnDate: "22/10/2025" },
-    {id: 9, reader: "Trương Văn I", book: "Kỹ thuật lập trình hướng đối tượng", borrowDate: "09/10/2025", returnDate: "23/10/2025" },
-    {id: 10, reader: "Bùi Thị K", book: "Quản trị dự án CNTT", borrowDate: "10/10/2025", returnDate: "24/10/2025" }
-    ];
-    const cardList = [
-    {id: 1, code: "BD001", name: "Nguyễn Văn A", issue: "2024-02-01", expiry: "2025-02-01", status: "Hoạt động" },
-    {id: 2, code: "BD002", name: "Trần Thị B", issue: "2023-03-10", expiry: "2024-03-10", status: "Hết hạn" },
-    {id: 3, code: "BD003", name: "Lê Minh C", issue: "2024-01-05", expiry: "2025-01-05", status: "Bị khóa" },
-    ];
+  // chạy khi DOM sẵn sàng
+  $(function () {
 
-    const requestList = [
-    {id: "YC001", reader: "Lê Văn D", type: "Cấp mới", date: "2025-10-25", status: "Chờ duyệt" },
-    {id: "YC002", reader: "Phạm Thị E", type: "Gia hạn", date: "2025-10-26", status: "Đã duyệt" },
-    ];
+    var $mainTabs = $(".main-tabs li");
+    var $tabContents = $(".tab-content");
 
+    // helper: show target, hide others
+    function showTab(tabId) {
+      // 1) remove active trên tab list
+      $mainTabs.removeClass("active");
+      $mainTabs.filter('[data-tab="' + tabId + '"]').addClass("active");
 
-    let borrowedBooks = [];
-    let reader = null;
-    let transactions = [];
-    let savedTransactions = [];
-    let reserveList = [];
+      // 2) ẩn tất cả tab-content rồi hiện target
+      $tabContents.hide();
+      $("#" + tabId).show();
 
-    // ================== HÀM TIỆN ÍCH ==================
-    function showAlert(message, type = "success") {
-        // đảm bảo phần tử alertBox tồn tại — nếu chưa có thì tự tạo
-        let alertBox = document.getElementById("alertBox");
+      // 3) Ẩn/hiện các phần rời rạc gắn data-tab-for
+      // Các phần có data-tab-for="muontra-tab" sẽ hiển thị khi tabId === 'muontra-tab'
+      $('[data-tab-for]').each(function () {
+        var $el = $(this);
+        var forAttr = $el.attr("data-tab-for"); // có thể là danh sách phân cách bằng space
+        if (!forAttr) { $el.hide(); return; }
+        var allowed = forAttr.split(/\s+/);
+        if ($.inArray(tabId, allowed) !== -1) {
+          $el.show();
+        } else {
+          $el.hide();
+        }
+      });
 
-    if (!alertBox) {
-        alertBox = document.createElement("div");
-    alertBox.id = "alertBox";
-    alertBox.className = "alert-box";
-    document.body.appendChild(alertBox);
+      // 4) update URL hash (không reload)
+      try {
+        history.replaceState && history.replaceState(null, null, "#" + tabId);
+      } catch (e) { /* ignore */ }
     }
 
-    alertBox.textContent = message;
-    alertBox.className = `alert-box ${type}`;
-    alertBox.style.display = "block";
-
-    setTimeout(() => {
-        alertBox.style.display = "none";
-    }, 3000);
-}
-
-    // ================== HIỂN THỊ DANH SÁCH BẠN ĐỌC ==================
-    let currentReaderPage = 1;
-    const readersPerPage = 5;
-
-    function renderAllReaders(page = 1) {
-    const tbody = document.getElementById("readerInfoTable");
-    const pagination = document.getElementById("readerPagination");
-    tbody.innerHTML = "";
-    pagination.innerHTML = "";
-
-    const totalPages = Math.ceil(readers.length / readersPerPage);
-    if (page < 1) page = 1;
-    if (page > totalPages) page = totalPages;
-    currentReaderPage = page;
-
-    const start = (page - 1) * readersPerPage;
-    const end = start + readersPerPage;
-    const readersToShow = readers.slice(start, end);
-
-    readersToShow.forEach((r, index) => {
-        const tr = document.createElement("tr");
-    tr.innerHTML = `
-    <td>${start + index + 1}</td>
-    <td>${r.id}</td>
-    <td>${r.name}</td>
-    <td>${r.location}</td>
-    <td>${r.phone}</td>
-    <td>${r.address || "-"}</td>
-    `;
-        tr.addEventListener("click", () => selectReader(r));
-    tbody.appendChild(tr);
-    });
-
-    // Nút phân trang
-    const prevBtn = document.createElement("button");
-    prevBtn.textContent = "⬅️ Trước";
-    prevBtn.className = "btn btn-sm btn-outline-primary m-1";
-    prevBtn.disabled = page === 1;
-    prevBtn.onclick = () => renderAllReaders(page - 1);
-
-    const nextBtn = document.createElement("button");
-    nextBtn.textContent = "Sau ➡️";
-    nextBtn.className = "btn btn-sm btn-outline-primary m-1";
-    nextBtn.disabled = page === totalPages;
-    nextBtn.onclick = () => renderAllReaders(page + 1);
-
-    const pageInfo = document.createElement("span");
-    pageInfo.textContent = `Trang ${page} / ${totalPages}`;
-    pageInfo.style.margin = "0 10px";
-    pageInfo.style.fontWeight = "bold";
-
-    pagination.appendChild(prevBtn);
-    pagination.appendChild(pageInfo);
-    pagination.appendChild(nextBtn);
-}
-
-    //Hiển thị tất cả thông tin sách
-    // ================== HIỂN THỊ TẤT CẢ SÁCH ==================
-    let currentBookPage = 1;
-    const booksPerPage = 5;
-
-    function renderAllBooks(page = 1) {
-    const tbody = document.getElementById("allBookTable");
-    const pagination = document.getElementById("bookPagination");
-    tbody.innerHTML = "";
-    pagination.innerHTML = "";
-
-    const totalPages = Math.ceil(sampleBooks.length / booksPerPage);
-    if (page < 1) page = 1;
-    if (page > totalPages) page = totalPages;
-    currentBookPage = page;
-
-    const start = (page - 1) * booksPerPage;
-    const end = start + booksPerPage;
-    const booksToShow = sampleBooks.slice(start, end);
-
-    booksToShow.forEach(book => {
-        const tr = document.createElement("tr");
-    tr.innerHTML = `
-    <td>${book.code}</td>
-    <td>${book.name}</td>
-    <td>${book.type}</td>
-    <td>${book.location}</td>
-    <td><button class="btn-add" onclick="addBookFromList('${book.code}')">➕ Thêm</button></td>
-    `;
-    tbody.appendChild(tr);
-    });
-
-    // Phân trang
-    const prevBtn = document.createElement("button");
-    prevBtn.textContent = "⬅️ Trước";
-    prevBtn.className = "btn btn-sm btn-outline-primary m-1";
-    prevBtn.disabled = page === 1;
-    prevBtn.onclick = () => renderAllBooks(page - 1);
-
-    const nextBtn = document.createElement("button");
-    nextBtn.textContent = "Sau ➡️";
-    nextBtn.className = "btn btn-sm btn-outline-primary m-1";
-    nextBtn.disabled = page === totalPages;
-    nextBtn.onclick = () => renderAllBooks(page + 1);
-
-    // Hiển thị số trang
-    const pageInfo = document.createElement("span");
-    pageInfo.textContent = `Trang ${page} / ${totalPages}`;
-    pageInfo.style.margin = "0 10px";
-    pageInfo.style.fontWeight = "bold";
-
-    pagination.appendChild(prevBtn);
-    pagination.appendChild(pageInfo);
-    pagination.appendChild(nextBtn);
-}
-
-    // Chọn một bạn đọc từ bảng
-    function selectReader(r) {
-        reader = r;
-    showAlert(`✅ Đã chọn bạn đọc: ${r.name}`, "success");
-    }
-    /* -------------------- PHÂN TRANG DANH SÁCH MƯỢN – TRẢ -------------------- */
-    let currentMuonTraPage = 1;
-    const muonTraPerPage = 5;
-
-    // ✅ Hàm hiển thị danh sách mượn – trả có phân trang
-    function renderMuonTra(page = 1) {
-    const table = document.querySelector(".muontra-card table.muontra-table");
-    if (!table) return;
-
-    const tbody = table.querySelector("tbody");
-    const pagination = document.getElementById("muonTraList");
-
-    tbody.innerHTML = "";
-    pagination.innerHTML = "";
-
-    const totalPages = Math.ceil(muonTraList.length / muonTraPerPage);
-    if (totalPages === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Không có dữ liệu mượn – trả</td></tr>`;
-    return;
+    // khởi tạo: nếu có hash trong URL => hiển thị tab đó, ngược lại tab active mặc định
+    var hash = (window.location.hash || "").replace("#", "");
+    if (hash && $("#" + hash).length) {
+      showTab(hash);
+    } else {
+      // nếu không, tìm .main-tabs li.active
+      var $active = $mainTabs.filter(".active").first();
+      if ($active.length) {
+        showTab($active.data("tab"));
+      } else {
+        // fallback: hiện tab đầu
+        var first = $mainTabs.first().data("tab");
+        showTab(first);
+      }
     }
 
-    if (page < 1) page = 1;
-    if (page > totalPages) page = totalPages;
-    currentMuonTraPage = page;
-
-    const start = (page - 1) * muonTraPerPage;
-    const end = start + muonTraPerPage;
-    const dataToShow = muonTraList.slice(start, end);
-
-    dataToShow.forEach((item, i) => {
-        const tr = document.createElement("tr");
-    tr.innerHTML = `
-    <td>${start + i + 1}</td>
-    <td>${item.reader}</td>
-    <td>${item.book}</td>
-    <td>${item.borrowDate}</td>
-    <td>${item.returnDate}</td>
-    <td><a href="#" class="btn btn-sm btn-warning">📚 Giữ chỗ</a></td>
-    `;
-    tbody.appendChild(tr);
+    // click handler
+    $mainTabs.on("click", function (e) {
+      e.preventDefault();
+      var tabId = $(this).data("tab");
+      if (!tabId) return;
+      showTab(tabId);
     });
 
-    // Nút "Trước"
-    const prevBtn = document.createElement("button");
-    prevBtn.textContent = "⬅️ Trước";
-    prevBtn.className = "btn btn-sm btn-outline-primary m-1";
-    prevBtn.disabled = page === 1;
-    prevBtn.onclick = () => renderMuonTra(page - 1);
+    // nếu muốn chuyển sub-tab khi đổi main tab: ẩn subtab container mặc định
+    // (nếu không cần có thể bỏ)
+    function resetSubtabs() {
+      // nếu có subtab active bên trong muontra, giữ; nếu không, ẩn subtab container khi ra tab khác
+      if (!$(".main-tabs li.active").data("tab") || $(".main-tabs li.active").data("tab") !== "muontra-tab") {
+        $(".subtab-container").hide();
+      } else {
+        $(".subtab-container").show();
+      }
+    }
+    // gọi lần đầu và khi đổi tab
+    resetSubtabs();
+    $mainTabs.on("click", resetSubtabs);
 
-    // Hiển thị thông tin trang
-    const pageInfo = document.createElement("span");
-    pageInfo.textContent = `Trang ${page} / ${totalPages}`;
-    pageInfo.style.margin = "0 10px";
-    pageInfo.style.fontWeight = "bold";
+    // Optional: keyboard left/right để chuyển tab (nâng cao)
+    $(document).on("keydown", function (ev) {
+      if (ev.key === "ArrowLeft" || ev.key === "ArrowRight") {
+        var $visible = $mainTabs.filter(".active");
+        var idx = $mainTabs.index($visible);
+        if (idx < 0) idx = 0;
+        var nextIdx = idx + (ev.key === "ArrowRight" ? 1 : -1);
+        if (nextIdx < 0) nextIdx = $mainTabs.length - 1;
+        if (nextIdx >= $mainTabs.length) nextIdx = 0;
+        $mainTabs.eq(nextIdx).trigger("click");
+      }
+    });
 
-    // Nút "Sau"
-    const nextBtn = document.createElement("button");
-    nextBtn.textContent = "Sau ➡️";
-    nextBtn.className = "btn btn-sm btn-outline-primary m-1";
-    nextBtn.disabled = page === totalPages;
-    nextBtn.onclick = () => renderMuonTra(page + 1);
+  });
 
-    pagination.appendChild(prevBtn);
-    pagination.appendChild(pageInfo);
-    pagination.appendChild(nextBtn);
-}
+})(jQuery);
 
-// ✅ Tự động hiển thị khi load trang
-document.addEventListener("DOMContentLoaded", () => {
-        renderAllReaders();
-    renderAllBooks();
-    renderMuonTra(); // ← thêm dòng này để danh sách mượn-trả có phân trang tự load
+// Đợi DOM load xong
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ================== Xử lý Tabs ==================
+    const mainTabs = document.querySelectorAll(".main-tabs li");
+    mainTabs.forEach(tab => {
+        tab.addEventListener("click", function () {
+            // Bỏ active tab cũ
+            mainTabs.forEach(t => t.classList.remove("active"));
+            this.classList.add("active");
+
+            // Ẩn tất cả nội dung tab
+            const tabContents = document.querySelectorAll(".tab-content");
+            tabContents.forEach(content => content.style.display = "none");
+
+            // Hiện tab tương ứng
+            const targetId = this.getAttribute("data-tab");
+            const targetTab = document.getElementById(targetId);
+            if (targetTab) targetTab.style.display = "block";
+        });
+    });
+
+
+    // ================== Xử lý chọn trạng thái ==================
+    const statusButtons = document.querySelectorAll(".btn-group:first-of-type .btn");
+    statusButtons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            statusButtons.forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // ================== Xử lý lọc đối tượng (Học sinh / Giáo viên) ==================
+    const userButtons = document.querySelectorAll(".btn-group:nth-of-type(2) .btn");
+    userButtons.forEach(btn => {
+        btn.addEventListener("click", function () {
+            userButtons.forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // ================== Nút tải lại ==================
+    const reloadBtn = document.querySelector(".btn-default i.fa-refresh")?.closest("button");
+    if (reloadBtn) {
+        reloadBtn.addEventListener("click", function () {
+            location.reload();
+        });
+    }
+
+    // ================== Checkbox chọn tất cả ==================
+    const masterCheckbox = document.querySelector("thead input[type='checkbox']");
+    if (masterCheckbox) {
+        masterCheckbox.addEventListener("change", function () {
+            const checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
+            checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        });
+    }
 });
 
 
-    // Tìm kiếm theo mã bạn đọc
-    function searchReader() {
-        const id = document.getElementById("readerId").value.trim().toUpperCase();
-    const tbody = document.getElementById("readerInfoTable");
-    tbody.innerHTML = "";
 
-    if (!id) return showAlert("Vui lòng nhập mã bạn đọc!");
+// HIỆN SUBTAB///////////////
+document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = document.querySelectorAll("#subTabGroup .btn");
+    const tabContents = document.querySelectorAll(".subtab-content");
 
-        const found = readers.filter(r => r.id === id);
-    if (found.length === 0) return showAlert("❌ Không tìm thấy bạn đọc!");
+    tabButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            // Bỏ active ở nút cũ
+            tabButtons.forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
 
-        found.forEach((r, index) => {
-            const tr = document.createElement("tr");
-    tr.innerHTML = `
-    <td>${index + 1}</td>
-    <td>${r.id}</td>
-    <td>${r.name}</td>
-    <td>${r.location}</td>
-    <td>${r.phone}</td>
-    <td>${r.address}</td>
-    `;
-            tr.addEventListener("click", () => selectReader(r));
-    tbody.appendChild(tr);
+            // Ẩn tất cả nội dung
+            tabContents.forEach((c) => (c.style.display = "none"));
+
+            // Hiện nội dung đúng tab
+            const targetId = this.getAttribute("data-subtab");
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+                targetContent.style.display = "block";
+            }
         });
+    });
+});
+
+
+//============= ĐĂNG KÝ MƯỢN =================//
+document.addEventListener("DOMContentLoaded", function () {
+    const btnMoModal = document.getElementById("btnMoModal");
+    const btnLuu = document.getElementById("btnLuuDangKyMoi");
+    const form = document.getElementById("formDangKyMoi");
+    const tbody = document.querySelector("#tab-dangky tbody"); // Table có ID tab-dangky
+
+    if (!btnMoModal || !btnLuu || !form || !tbody) {
+        console.error("❌ Thiếu phần tử HTML cần thiết!");
+        return;
     }
 
-    // Khi load trang, hiển thị tất cả bạn đọc
-    document.addEventListener("DOMContentLoaded", renderAllReaders);
-    // ===== THÊM SÁCH VÀO DANH SÁCH MƯỢN =====
-    window.addBookFromList = function(code) {
-            if (!reader) return showAlert("⚠️ Vui lòng chọn bạn đọc trước!");
-            const book = sampleBooks.find(b => b.code === code);
-    if (!book) return showAlert("⚠️ Không tìm thấy sách này!");
-            if (transactions.some(t => t.books.some(b => b.code === code)))
-    return showAlert("⚠️ Sách này đang được mượn ở giao dịch khác!");
-            if (borrowedBooks.some(b => b.code === code))
-    return showAlert("⚠️ Sách này đã nằm trong danh sách mượn!");
-    if (book.location !== reader.location)
-    return showAlert("⚠️ Sách ở " + book.location + " — bạn đọc ở " + reader.location);
-            if (borrowedBooks.length >= 5)
-    return showAlert("⚠️ Mỗi bạn đọc chỉ được mượn tối đa 5 sách!");
+    // 👉 Mở modal
+    btnMoModal.addEventListener("click", function () {
+        $("#modalDangKyMoi").modal("show");
+    });
 
-    const borrowDate = new Date();
-    const returnDate = calculateReturnDate(book.type);
-    borrowedBooks.push({...book, borrowDate, returnDate, status: "Đang mượn" });
-    renderTable();
-    showAlert(`✅ Đã thêm "${book.name}" vào danh sách mượn!`, "success");
+    // 👉 Khi nhấn Lưu
+    btnLuu.addEventListener("click", function () {
+        const tv = form.querySelector("#dkThanhVien").value.trim();
+        const nd = form.querySelector("#dkNhanDe").value.trim();
+        const dk = form.querySelector("#dkSoDKCB").value.trim();
+        const bia = form.querySelector("#dkBia").value.trim() || "https://via.placeholder.com/40x55?text=Book";
+        const tt = form.querySelector("#dkTrangThai").value;
+
+        if (!tv || !nd || !dk) {
+            alert("⚠️ Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td><input type="checkbox"></td>
+            <td>${tv}</td>
+            <td>${nd}</td>
+            <td>${dk}</td>
+            <td><img src="${bia}" style="width:40px;height:55px;"></td>
+            <td>${new Date().toLocaleDateString("vi-VN")}</td>
+            <td><span class="label ${getLabelClass(tt)}">${tt}</span></td>
+            <td>
+                <button class="btn btn-xs btn-success">✔ Cho mượn</button>
+                <button class="btn btn-xs btn-danger">✖ Hủy</button>
+            </td>
+        `;
+        tbody.appendChild(row);
+
+        $("#modalDangKyMoi").modal("hide");
+        form.reset();
+    });
+
+    function getLabelClass(status) {
+        switch (status) {
+            case "Đã xác nhận": return "label-success";
+            case "Chờ duyệt": return "label-warning";
+            case "Đã hủy": return "label-default";
+            default: return "label-info";
+        }
+    }
+});
+
+// NGÀY BẮT ĐẦU _ NGÀY KẾT THÚC 
+$(function () {
+    const $dateRange = $('#dateRange');
+
+    $dateRange.daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            applyLabel: 'Chọn',
+            cancelLabel: 'Xóa',
+            format: 'DD/MM/YYYY',
+            separator: ' - ',
+            daysOfWeek: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+            monthNames: [
+                'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4',
+                'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8',
+                'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+            ],
+            firstDay: 1
+        }
+    });
+
+    // Khi click icon thì mở lịch
+    $('.input-group-addon').on('click', function () {
+        $('#dateRange').trigger('click');
+    });
+
+    // Cập nhật giá trị khi chọn ngày
+    $dateRange.on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(`${picker.startDate.format('DD/MM/YYYY')} - ${picker.endDate.format('DD/MM/YYYY')}`);
+    });
+
+    // Xóa giá trị khi hủy
+    $dateRange.on('cancel.daterangepicker', function () {
+        $(this).val('');
+    });
+});
+
+
+
+
+// MƯỢN SÁCH TRỰC TIẾP
+document.addEventListener("DOMContentLoaded", function () {
+    const btnMuonSach = document.getElementById("btnMuonSach");
+    const muonSachModal = $("#muonSachModal");
+
+    if (btnMuonSach && muonSachModal.length) {
+
+        // Ngăn hành vi mặc định (nếu button nằm trong form hoặc có href="#")
+        btnMuonSach.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Kiểm tra modal đã có class "in" chưa (Bootstrap 3 dùng class này)
+            if (!muonSachModal.hasClass("in")) {
+                muonSachModal.modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
+            }
+        });
+
+        // Nút "Thoát" hoặc "Đóng" trong modal
+        $(document).on("click", "#muonSachModal .btn-danger", function (e) {
+            e.preventDefault();
+            muonSachModal.modal("hide");
+        });
+
+        // Khi modal đóng hoàn toàn
+        muonSachModal.on("hidden.bs.modal", function () {
+            document.body.classList.remove("modal-open");
+            $(".modal-backdrop").remove();
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const chonSach = document.getElementById("chonSach");
+    const tongSach = document.getElementById("tongSach");
+    const soSachDangKy = document.getElementById("soSachDangKy");
+    const bangSachMuonWrapper = document.getElementById("bangSachMuonWrapper");
+    const bangSachMuonBody = document.querySelector("#bangSachMuon tbody");
+    const btnXacNhanMuon = document.getElementById("btnXacNhanMuon");
+    const soNgayMuon = 7;
+
+    const danhSachMuon = [];
+
+    chonSach.addEventListener("change", function () {
+        const option = chonSach.options[chonSach.selectedIndex];
+        if (!option.value) return;
+
+        const today = new Date();
+        const tra = new Date(today);
+        tra.setDate(today.getDate() + soNgayMuon);
+
+        const sach = {
+            stt: danhSachMuon.length + 1,
+            nhande: option.text,
+            dkcb: option.dataset.dkcb,
+            bia: option.dataset.bia,
+            songay: soNgayMuon,
+            ngaytra: tra.toLocaleDateString("vi-VN")
         };
 
-    // ===== HIỂN THỊ THÔNG BÁO =====
-    function showAlert(msg, type = "error") {
-            const box = document.getElementById("alertBox");
-    box.innerText = msg;
-    box.className = "alert-box " + type;
-    box.style.display = "block";
-            setTimeout(() => box.style.display = "none", 3500);
-        }
+        danhSachMuon.push(sach);
+        renderTable();
+        chonSach.value = "";
+    });
 
-        // ===== KHỞI TẠO =====
-        document.addEventListener("DOMContentLoaded", () => {
-        renderAllReaders();
-    renderAllBooks();
-        });
-
-
-
-    // ================== QUÉT MÃ ==================
-    function simulateScan(type) {
-        const scanSound = document.getElementById("scanSound");
-    scanSound.play();
-    const box = document.getElementById("bookCode");
-    box.value = "";
-    box.placeholder = type === "barcode" ? "Đang quét mã vạch..." : "Đang đọc RFID...";
-
-        setTimeout(() => {
-            const randomBook = sampleBooks[Math.floor(Math.random() * sampleBooks.length)];
-    box.value = randomBook.code;
-    box.placeholder = "Nhập mã / Quét mã vạch / RFID...";
-    showAlert(type === "barcode" ? "📸 Quét mã vạch thành công!" : "📶 Đọc RFID thành công!", "success");
-        }, 1000);
-    }
-
-    // ================== TÍNH NGÀY TRẢ ==================
-    function calculateReturnDate(type) {
-            const d = new Date();
-    const plus = type === "Giáo trình" ? 30 : 14;
-    d.setDate(d.getDate() + plus);
-    return d;
-        }
-
-
-    // ================== THÊM SÁCH ==================
-    function addBook() {
-        if (!reader) return showAlert("Vui lòng nhập mã bạn đọc trước!");
-    const code = document.getElementById("bookCode").value.trim().toUpperCase();
-    if (!code) return showAlert("Vui lòng nhập mã sách!");
-
-        const book = sampleBooks.find(b => b.code === code);
-    if (!book) return showAlert("Không tìm thấy sách này trong hệ thống!");
-
-        if (transactions.some(t => t.books.some(b => b.code === code)))
-    return showAlert("⚠️ Sách này đang được mượn ở giao dịch khác!");
-        if (borrowedBooks.some(b => b.code === code))
-    return showAlert("⚠️ Sách này đã nằm trong danh sách mượn!");
-    if (book.location !== reader.location)
-    return showAlert("⚠️ Sách ở " + book.location + " — bạn đọc ở " + reader.location);
-
-    const borrowDate = new Date();
-    const returnDate = calculateReturnDate(book.type);
-
-    borrowedBooks.push({...book, borrowDate, returnDate, status: "Đang mượn" });
-    renderTable();
-    document.getElementById("bookCode").value = "";
-    showAlert("✅ Đã thêm sách vào danh sách mượn!", "success");
-    }
-
-    // ===== HIỂN THỊ DANH SÁCH MƯỢN =====
     function renderTable() {
-            const tbody = document.getElementById("bookList");
-    tbody.innerHTML = "";
-            borrowedBooks.forEach((b, i) => {
-                const tr = document.createElement("tr");
-    tr.innerHTML = `
-    <td>${b.code}</td>
-    <td>${b.name}</td>
-    <td>${b.type}</td>
-    <td>${b.borrowDate.toLocaleDateString()}</td>
-    <td>${b.returnDate.toLocaleDateString()}</td>
-    <td>${b.status}</td>
-    <td><button class="btn-remove" onclick="removeBook(${i})">Xóa</button></td>
-    `;
-    tbody.appendChild(tr);
-            });
+        bangSachMuonBody.innerHTML = "";
+        danhSachMuon.forEach(function (sach, i) {
+            const row = `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${sach.nhande}</td>
+                    <td><span class="label label-info">${sach.dkcb}</span></td>
+                    <td><img src="${sach.bia}" width="40" height="55" class="img-thumbnail"></td>
+                    <td>${sach.songay}</td>
+                    <td>${sach.ngaytra}</td>
+                </tr>`;
+            bangSachMuonBody.insertAdjacentHTML("beforeend", row);
+        });
+
+        if (danhSachMuon.length > 0) {
+            bangSachMuonWrapper.style.display = "block";
         }
 
-    window.removeBook = function(index) {
-        borrowedBooks.splice(index, 1);
-    renderTable();
-        };
-
-
-    // ================== TRẢ & GIA HẠN ==================
-    function returnBook(code) {
-        const note = prompt("Nhập ghi chú khi trả (nếu có):", "");
-        borrowedBooks = borrowedBooks.filter(b => b.code !== code);
-    showAlert("📚 Đã trả sách thành công!", "success");
-    if (note) console.log("Ghi chú khi trả:", note);
-    renderTable();
+        tongSach.textContent = danhSachMuon.length;
+        soSachDangKy.textContent = danhSachMuon.length;
     }
 
-    function extendReturnDate(code, days = 7) {
-        const book = borrowedBooks.find(b => b.code === code);
-    if (!book) return showAlert("Không tìm thấy sách!");
-    book.returnDate.setDate(new Date(book.returnDate).getDate() + days);
-    renderTable();
-    showAlert(`✅ Gia hạn thêm ${days} ngày cho sách ${book.name}`, "success");
-    }
+    btnXacNhanMuon.addEventListener("click", function () {
+        if (danhSachMuon.length === 0) {
+            alert("⚠️ Vui lòng chọn ít nhất một sách để mượn!");
+        } else {
+            alert("✅ Mượn thành công " + danhSachMuon.length + " cuốn sách!");
+            $("#muonSachModal").modal("hide");
+        }
+    });
+});
 
-    /* ------------------ LƯU GIAO DỊCH ------------------ */
-    function saveTransaction() {
-    if (!reader) {
-        showAlert("⚠️ Bạn chưa chọn bạn đọc!", "error");
-    return;
-    }
 
-    if (borrowedBooks.length === 0) {
-        showAlert("⚠️ Chưa có sách nào để lưu!", "error");
-    return;
-    }
 
-    // Tạo giao dịch mới
-    const newTransaction = {
-        id: savedTransactions.length + 1,
-    reader: reader,
-    books: [...borrowedBooks],
-    createdAt: new Date().toLocaleString()
+// TRẢ SÁCH TRỰC TIẾP /////////////
+document.addEventListener("DOMContentLoaded", function () {
+    const btnTraSach = document.getElementById("btnTraSach");
+    const traSachModal = $("#traSachModal");
+
+    // Khi bấm nút "Trả Sách"
+    btnTraSach.addEventListener("click", function (e) {
+        e.preventDefault();
+        traSachModal.modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        traSachModal.modal('show');
+    });
+
+    // Khi bấm nút Thoát hoặc đóng modal
+    $(document).on("click", "#traSachModal .btn-danger, #traSachModal .close", function () {
+        traSachModal.modal("hide");
+    });
+
+    // Fix lỗi backdrop còn sót
+    traSachModal.on("hidden.bs.modal", function () {
+        document.body.classList.remove("modal-open");
+        $(".modal-backdrop").remove();
+    });
+});
+
+// IN BIÊN NHẬN/////////////////
+document.addEventListener("DOMContentLoaded", function () {
+    // Khi bấm nút "In biên nhận"
+    $(document).on("click", ".btn-in-bien-nhan", function () {
+        // Lấy thông tin dòng đang được in
+        var row = $(this).closest("tr");
+        var nguoiMuon = row.find("td:nth-child(2)").text().trim();
+        var trangThai = row.find("td:nth-child(3)").text().trim();
+        var tenSach = row.find("td:nth-child(4)").text().trim();
+        var soDKCB = row.find("td:nth-child(5)").text().trim();
+        var ngay = row.find("td:nth-child(7)").text().trim();
+
+        // Tạo nội dung biên nhận
+        var bienNhan = `
+            <div style="font-family: Arial; padding: 20px;">
+                <h3 style="text-align:center;">🧾 BIÊN NHẬN MƯỢN SÁCH</h3>
+                <hr>
+                <p><strong>Người mượn:</strong> ${nguoiMuon}</p>
+                <p><strong>Trạng thái:</strong> ${trangThai}</p>
+                <p><strong>Tên sách:</strong> ${tenSach}</p>
+                <p><strong>Số ĐKCB:</strong> ${soDKCB}</p>
+                <p><strong>Ngày mượn / trả:</strong> ${ngay}</p>
+                <hr>
+                <p style="text-align:center;">Cảm ơn bạn đã sử dụng thư viện 💚</p>
+            </div>
+        `;
+
+        // Mở cửa sổ in
+        var win = window.open("", "_blank");
+        win.document.write(bienNhan);
+        win.document.close();
+        win.print();
+    });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Xử lý khi nhấn "Cho mượn"
+    document.querySelectorAll(".btn-success.btn-xs").forEach(btn => {
+        btn.addEventListener("click", e => {
+            const row = e.target.closest("tr");
+            const thanhVien = row.querySelector("td:nth-child(2) strong")?.textContent.trim() || "";
+            const nhanDe = row.querySelector("td:nth-child(3) strong")?.textContent.trim() || "";
+            const soDKCB = row.querySelector("td:nth-child(4)")?.textContent.trim() || "";
+
+            if (confirm(`📚 Xác nhận cho mượn:\n- Thành viên: ${thanhVien}\n- Sách: ${nhanDe}\n- Số ĐKCB: ${soDKCB}`)) {
+                row.querySelector("td:nth-child(7)").innerHTML = `<span class="label label-primary">Đang mượn</span>`;
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fa fa-check-circle"></i> Đã mượn`;
+            }
+        });
+    });
+
+    // Xử lý khi nhấn "Hủy"
+    document.querySelectorAll(".btn-danger.btn-xs").forEach(btn => {
+        btn.addEventListener("click", e => {
+            const row = e.target.closest("tr");
+            const nhanDe = row.querySelector("td:nth-child(3) strong")?.textContent.trim() || "";
+
+            if (confirm(`❌ Bạn có chắc muốn hủy đơn mượn sách:\n"${nhanDe}" không?`)) {
+                row.querySelector("td:nth-child(7)").innerHTML = `<span class="label label-default">Đã hủy</span>`;
+            }
+        });
+    });
+
+    // Xử lý khi nhấn "In biên nhận"
+    document.querySelectorAll(".btn-in-bien-nhan").forEach(btn => {
+        btn.addEventListener("click", e => {
+            const row = e.target.closest("tr");
+            const thanhVien = row.querySelector("td:nth-child(2) strong")?.textContent.trim() || "";
+            const nhanDe = row.querySelector("td:nth-child(3) strong")?.textContent.trim() || "";
+            const soDKCB = row.querySelector("td:nth-child(4)")?.textContent.trim() || "";
+
+            alert(`🧾 In biên nhận:\nThành viên: ${thanhVien}\nSách: ${nhanDe}\nSố ĐKCB: ${soDKCB}`);
+        });
+    });
+});
+
+
+
+
+
+////////////////////////////
+/// TAB 2: CHÍNH SÁCH /////////
+///////////////////////////
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ========== 📗 LƯU CHÍNH SÁCH MƯỢN ==========
+    window.savePolicy = function () {
+        const group = document.getElementById("policyGroup").value;
+        const type = document.getElementById("policyType").value;
+        const days = document.getElementById("policyDays").value;
+        const limit = document.getElementById("policyLimit").value;
+        const summary = document.getElementById("policySummary");
+
+        if (!group || !type || !days || !limit) {
+            summary.style.display = "block";
+            summary.style.background = "#ffecec";
+            summary.style.color = "#b71c1c";
+            summary.textContent = "⚠️ Vui lòng nhập đầy đủ thông tin trước khi lưu!";
+            return;
+        }
+
+        const txt = `✅ Chính sách đã lưu cho nhóm [${group}] – Loại tài liệu [${type}]
+        • Thời hạn: ${days} ngày
+        • Giới hạn mượn: ${limit} tài liệu`;
+        summary.style.display = "block";
+        summary.style.background = "#f1f6ff";
+        summary.style.color = "#004085";
+        summary.textContent = txt;
     };
 
-    // Thêm vào danh sách
-    savedTransactions.push(newTransaction);
-    renderSavedTransactions();
 
-    // Reset tạm
-    borrowedBooks = [];
-    reader = null;
-    renderTable();
+    // ========== 💸 LƯU QUY TẮC PHẠT ==========
+    window.saveFineRule = function () {
+        const perDay = document.getElementById("finePerDay").value;
+        const fineMax = document.getElementById("fineMax").value;
+        const discount = document.getElementById("fineDiscountGroup").value;
+        const fineSummary = document.getElementById("fineSummary");
 
-    showAlert("💾 Đã lưu giao dịch thành công!", "success");
-}
-
-
-    /* ========================== DANH SÁCH GIAO DỊCH ĐÃ LƯU ========================== */
-    function renderSavedTransactions() {
-    const tbody = document.querySelector("#savedTransactionsTable tbody");
-    tbody.innerHTML = "";
-
-    if (savedTransactions.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">Chưa có giao dịch nào</td></tr>`;
-    return;
-    }
-
-    savedTransactions.forEach((t, index) => {
-        const tr = document.createElement("tr");
-    tr.innerHTML = `
-    <td>${index + 1}</td>
-    <td>${t.reader.name}</td>
-    <td>${t.books.length}</td>
-    <td>${t.createdAt}</td>
-    `;
-    tbody.appendChild(tr);
-    });
-}
-
-    // ================== IN / PHẠT / HỦY ==================
-    function printReceipt() {
-        if (!reader || borrowedBooks.length === 0)
-    return showAlert("Không có dữ liệu để in!");
-
-    const content = `
-    <h2 style='text-align:center;'>THƯ VIỆN CÔNG NGHỆ</h2>
-    <h3>🧾 Biên nhận mượn sách</h3>
-    <p><b>Bạn đọc:</b> ${reader.name}</p>
-    <p><b>Địa điểm:</b> ${reader.location}</p>
-    <p><b>Điện thoại:</b> ${reader.phone}</p>
-    <p><b>Địa chỉ:</b> ${reader.address}</p>
-    <table border='1' cellspacing='0' cellpadding='8' style='width:100%; border-collapse:collapse;'>
-        <tr><th>Mã</th><th>Tên sách</th><th>Ngày mượn</th><th>Ngày trả</th></tr>
-        ${borrowedBooks.map(b => `
-                    <tr><td>${b.code}</td><td>${b.name}</td><td>${b.borrowDate.toLocaleDateString()}</td><td>${b.returnDate.toLocaleDateString()}</td></tr>
-                `).join("")}
-    </table>
-    <p style='margin-top:20px;'>📅 Ngày in: ${new Date().toLocaleDateString()}</p>`;
-
-    const w = window.open('', '_blank');
-    w.document.write(content);
-    w.print();
-    w.close();
-    }
-
-    function skipPenalty(role = "user") {
-        if (role === "admin" || role === "thuthu")
-    showAlert("✅ Quyền cao – được phép bỏ qua phạt!", "success");
-    else showAlert("⚠️ Bạn không có quyền bỏ qua phạt!", "error");
-    }
-
-    function clearAll() {
-    if (borrowedBooks.length === 0 && !reader) {
-        showAlert("⚠️ Không có gì để hủy!", "error");
-    return;
-    }
-
-    if (!confirm("Bạn có chắc muốn hủy giao dịch hiện tại?")) return;
-
-    borrowedBooks = [];
-    reader = null;
-    renderTable();
-    showAlert("🗑️ Đã hủy giao dịch hiện tại!", "success");
-}
-
-
-    // ================== KIỂM TRA HỢP LỆ ==================
-    function validateTransaction() {
-        if (!reader) {
-        showAlert("⚠️ Bạn chưa chọn bạn đọc!");
-    return false;
+        if (!perDay || !fineMax) {
+            fineSummary.style.display = "block";
+            fineSummary.style.background = "#ffecec";
+            fineSummary.style.color = "#b71c1c";
+            fineSummary.textContent = "⚠️ Vui lòng nhập đầy đủ thông tin phạt!";
+            return;
         }
-    if (borrowedBooks.length === 0) {
-        showAlert("⚠️ Chưa có sách nào trong danh sách mượn!");
-    return false;
+
+        let discountText = "Không có nhóm miễn giảm";
+        if (discount === "GV") discountText = "Giảng viên (Miễn phạt)";
+        else if (discount === "SV") discountText = "Sinh viên (Giảm 50%)";
+
+        fineSummary.style.display = "block";
+        fineSummary.style.background = "#f1f6ff";
+        fineSummary.style.color = "#004085";
+        fineSummary.textContent =
+            `✅ Quy tắc phạt đã lưu:
+            • ${perDay}đ/ngày – Tối đa ${fineMax}đ
+            • ${discountText}`;
+    };
+
+
+    // ========== 🕒 LƯU LỊCH LÀM VIỆC ==========
+    window.saveSchedule = function () {
+        const open = document.getElementById("openTime").value;
+        const close = document.getElementById("closeTime").value;
+        const offDays = Array.from(document.getElementById("offDays").selectedOptions).map(o => o.value);
+        const summary = document.getElementById("scheduleSummary");
+
+        summary.style.display = "block";
+        summary.style.background = "#f1f6ff";
+        summary.style.color = "#004085";
+        summary.textContent =
+            `✅ Lưu thành công lịch làm việc:
+            • Giờ mở: ${open} → Giờ đóng: ${close}
+            • Nghỉ: ${offDays.join(", ")}`;
+    };
+
+
+    // ========== ⚖️ KIỂM TRA HỢP LỆ ==========
+    window.kiemTraHopLe = function () {
+        const reader = document.getElementById("checkReader").value;
+        const book = document.getElementById("checkBookCode").value.trim();
+        const result = document.getElementById("checkResult");
+
+        if (!reader || !book) {
+            result.style.display = "block";
+            result.style.background = "#ffecec";
+            result.style.color = "#b71c1c";
+            result.textContent = "⚠️ Cần chọn bạn đọc và nhập mã sách!";
+            return;
         }
-        if (borrowedBooks.length > 5) {
-        showAlert("⚠️ Mỗi bạn đọc chỉ được mượn tối đa 5 sách!", "error");
-    return false;
+
+        // Giả lập kiểm tra hợp lệ
+        const isValid = Math.random() > 0.3; // 70% hợp lệ
+        result.style.display = "block";
+        if (isValid) {
+            result.style.background = "#e9fbe9";
+            result.style.color = "#1b5e20";
+            result.textContent = `✅ Giao dịch hợp lệ! Bạn đọc ${reader} có thể mượn sách ${book}.`;
+        } else {
+            result.style.background = "#ffecec";
+            result.style.color = "#b71c1c";
+            result.textContent = `❌ Không hợp lệ! Bạn đọc ${reader} đã vượt quá giới hạn hoặc sách ${book} không khả dụng.`;
         }
-        const codes = borrowedBooks.map(b => b.code);
-        const duplicates = codes.filter((c, i) => codes.indexOf(c) !== i);
-        if (duplicates.length > 0) {
-        showAlert("⚠️ Có sách bị trùng mã trong danh sách!", "error");
-    return false;
-        }
-    for (let b of borrowedBooks) {
-            if (b.returnDate < b.borrowDate) {
-        showAlert(`⚠️ Ngày trả của sách ${b.name} không hợp lệ!`);
-    return false;
+    };
+
+
+    // ========== 📂 XUẤT / NHẬP CẤU HÌNH ==========
+    window.exportConfig = function () {
+        const config = {
+            group: document.getElementById("policyGroup").value,
+            type: document.getElementById("policyType").value,
+            days: document.getElementById("policyDays").value,
+            limit: document.getElementById("policyLimit").value,
+            fine: {
+                perDay: document.getElementById("finePerDay").value,
+                max: document.getElementById("fineMax").value,
+                discount: document.getElementById("fineDiscountGroup").value
+            },
+            schedule: {
+                open: document.getElementById("openTime").value,
+                close: document.getElementById("closeTime").value,
+                offDays: Array.from(document.getElementById("offDays").selectedOptions).map(o => o.value)
             }
-    if (b.location !== reader.location) {
-        showAlert(`⚠️ Sách ${b.name} ở ${b.location}, không cùng kho với bạn đọc (${reader.location})!`);
-    return false;
+        };
+
+        const blob = new Blob([JSON.stringify(config, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "library_policy_config.json";
+        a.click();
+        URL.revokeObjectURL(url);
+
+        const summary = document.getElementById("configSummary");
+        summary.style.display = "block";
+        summary.textContent = "💾 Cấu hình đã được xuất ra file JSON.";
+    };
+
+
+    window.importConfig = function (input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            try {
+                const data = JSON.parse(e.target.result);
+
+                // Gán dữ liệu vào form
+                document.getElementById("policyGroup").value = data.group || "";
+                document.getElementById("policyType").value = data.type || "";
+                document.getElementById("policyDays").value = data.days || "";
+                document.getElementById("policyLimit").value = data.limit || "";
+                document.getElementById("finePerDay").value = data.fine?.perDay || "";
+                document.getElementById("fineMax").value = data.fine?.max || "";
+                document.getElementById("fineDiscountGroup").value = data.fine?.discount || "";
+                document.getElementById("openTime").value = data.schedule?.open || "08:00";
+                document.getElementById("closeTime").value = data.schedule?.close || "17:00";
+
+                // Đặt ngày nghỉ
+                const offDaysSelect = document.getElementById("offDays");
+                Array.from(offDaysSelect.options).forEach(opt => {
+                    opt.selected = data.schedule?.offDays?.includes(opt.value);
+                });
+
+                const summary = document.getElementById("configSummary");
+                summary.style.display = "block";
+                summary.style.background = "#f1f6ff";
+                summary.style.color = "#004085";
+                summary.textContent = "✅ Đã nhập cấu hình thành công!";
+            } catch {
+                alert("❌ File cấu hình không hợp lệ!");
             }
-        }
-    return true;
-    }
-    // 🧨 Hủy yêu cầu mượn
-    function cancelBorrowRequest() {
-            if (borrowedBooks.length === 0)
-    return showAlert("❌ Không có yêu cầu mượn nào để hủy!");
-    if (!confirm("Bạn có chắc muốn hủy yêu cầu mượn hiện tại không?")) return;
+        };
+        reader.readAsText(file);
+    };
 
-    borrowedBooks = [];
-    renderTable();
-    showAlert("🗑️ Đã hủy toàn bộ yêu cầu mượn!", "success");
-        }
-
-    // 🔄 Hủy yêu cầu gia hạn
-    function cancelExtension() {
-            if (borrowedBooks.length === 0)
-    return showAlert("⚠️ Chưa có sách nào đang được gia hạn!");
-    if (!confirm("Bạn có chắc muốn hủy gia hạn các sách này?")) return;
-
-            borrowedBooks.forEach(b => {
-        b.returnDate.setDate(new Date().getDate() + 14); // đặt lại hạn mặc định
-            });
-    renderTable();
-    showAlert("↩️ Đã hủy yêu cầu gia hạn và khôi phục hạn mặc định!", "success");
-        }
-
-    // 🚫 Khóa thẻ bạn đọc
-    function lockCard() {
-            if (!reader) return showAlert("⚠️ Chưa chọn bạn đọc!");
-    if (!confirm(`Khóa thẻ của ${reader.name}?`)) return;
-
-    reader.isLocked = true;
-    showAlert(`🔒 Thẻ bạn đọc ${reader.name} đã bị khóa!`, "error");
-    document.getElementById("readerInfo").innerHTML += `<p style='color:red'><strong>⚠️ Thẻ đang bị khóa!</strong></p>`;
-        }
-
-    // 🗓️ Xem lịch thư viện
-    function showLibrarySchedule() {
-            const box = document.getElementById("librarySchedule");
-    box.style.display = box.style.display === "none" ? "block" : "none";
-        }
-    document.addEventListener("DOMContentLoaded", () => {
-    const btnSave = document.getElementById("btnSave");
-    const btnClear = document.getElementById("btnClear");
-
-    if (btnSave) btnSave.addEventListener("click", saveTransaction);
-    if (btnClear) btnClear.addEventListener("click", clearAll);
-
-    renderSavedTransactions();
 });
 
-    function confirmHold(tenSach) {
-            const confirmMsg = `📚 Bạn có muốn giữ chỗ cho cuốn "${tenSach}" không?`;
-    if (confirm(confirmMsg)) {
-        // Nếu người dùng bấm "OK" thì chuyển đến trang giữ chỗ
-        window.location.href = `/GiuCho/Index?tenSach=${encodeURIComponent(tenSach)}`;
-            }
-        }
-            document.querySelectorAll(".main-tabs li").forEach(tab => {
-        tab.addEventListener("click", () => {
-            document.querySelectorAll(".main-tabs li").forEach(t => t.classList.remove("active"));
-            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-            tab.classList.add("active");
-            document.getElementById(tab.dataset.tab).classList.add("active");
-        });
+
+
+
+// ==========================
+// 📅 QUẢN LÝ THẺ & LỊCH THƯ VIỆN
+// ==========================
+
+// 🔹 Dữ liệu mẫu
+const cards = [
+    { id: 1, code: "BD001", name: "Nguyễn Văn A", issue: "2024-01-05", expiry: "2025-01-05", status: "Hoạt động" },
+    { id: 2, code: "BD002", name: "Trần Thị B", issue: "2023-05-12", expiry: "2024-05-12", status: "Bị khóa" },
+    { id: 3, code: "BD003", name: "Lê Văn C", issue: "2023-09-20", expiry: "2025-09-20", status: "Hoạt động" },
+    { id: 4, code: "BD004", name: "Phạm Thị D", issue: "2023-03-11", expiry: "2024-03-11", status: "Chờ duyệt" },
+    { id: 5, code: "BD005", name: "Đỗ Quang E", issue: "2023-06-10", expiry: "2025-06-10", status: "Hoạt động" },
+];
+
+const requests = [
+    { id: "YC001", reader: "Nguyễn Văn A", type: "Gia hạn", date: "2025-10-01", status: "Đang chờ" },
+    { id: "YC002", reader: "Trần Thị B", type: "Cấp mới", date: "2025-10-02", status: "Đang chờ" },
+];
+
+// 🔹 Hàm render bảng thẻ
+function renderCards(list = cards) {
+    const tbody = document.getElementById("cardBody");
+    tbody.innerHTML = "";
+    list.forEach((card, index) => {
+        const row = `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${card.code}</td>
+        <td>${card.name}</td>
+        <td>${formatDate(card.issue)}</td>
+        <td>${formatDate(card.expiry)}</td>
+        <td>
+          <span class="label ${getStatusClass(card.status)}">${card.status}</span>
+        </td>
+        <td>
+          <button class="btn btn-xs btn-warning" onclick="toggleLock('${card.code}')">
+            ${card.status === "Bị khóa" ? "🔓 Mở khóa" : "🔒 Khóa"}
+          </button>
+        </td>
+      </tr>
+    `;
+        tbody.insertAdjacentHTML("beforeend", row);
     });
-
-    function toggleSchedule() {
-        const box = document.getElementById("librarySchedule");
-    box.style.display = (box.style.display === "none" || !box.style.display) ? "block" : "none";
-    }
-
-    function renderCards() {
-      const tbody = document.getElementById("cardBody");
-    tbody.innerHTML = "";
-      cardList.forEach((c, i) => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${i + 1}</td>
-            <td>${c.code}</td>
-            <td>${c.name}</td>
-            <td>${c.issue}</td>
-            <td>${c.expiry}</td>
-            <td>${statusBadge(c.status)}</td>
-            <td>
-              <button class="btn btn-warning" onclick="lockCard(${i})">🔒 Khóa</button>
-              <button class="btn btn-info" onclick="renewCard(${i})">🔄 Gia hạn</button>
-            </td>
-          </tr>`;
-      });
     updateStats();
-    }
+}
 
-    function statusBadge(status) {
-      if (status === "Hoạt động") return `<span style="color:green;font-weight:bold;">✅ ${status}</span>`;
-    if (status === "Bị khóa") return `<span style="color:red;font-weight:bold;">🔒 ${status}</span>`;
-    if (status === "Hết hạn") return `<span style="color:#f97316;font-weight:bold;">⚠️ ${status}</span>`;
-    return status;
-    }
-
-    // ==== Render yêu cầu thẻ ====
-    function renderRequests() {
-      const tbody = document.getElementById("requestBody");
+// 🔹 Hàm render bảng yêu cầu
+function renderRequests() {
+    const tbody = document.getElementById("requestBody");
     tbody.innerHTML = "";
-      requestList.forEach(r => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${r.id}</td>
-            <td>${r.reader}</td>
-            <td>${r.type}</td>
-            <td>${r.date}</td>
-            <td>${r.status}</td>
-            <td>
-              ${r.status === "Chờ duyệt" ? `
-                <button class="btn btn-info" onclick="approveRequest('${r.id}')">✅ Duyệt</button>
-                <button class="btn btn-danger" onclick="rejectRequest('${r.id}')">❌ Từ chối</button>` : `--`}
-            </td>
-          </tr>`;
-      });
-    }
+    requests.forEach(req => {
+        const row = `
+      <tr>
+        <td>${req.id}</td>
+        <td>${req.reader}</td>
+        <td>${req.type}</td>
+        <td>${formatDate(req.date)}</td>
+        <td><span class="label label-info">${req.status}</span></td>
+        <td>
+          <button class="btn btn-success btn-xs" onclick="approveRequest('${req.id}')">✅ Duyệt</button>
+          <button class="btn btn-danger btn-xs" onclick="rejectRequest('${req.id}')">❌ Từ chối</button>
+        </td>
+      </tr>
+    `;
+        tbody.insertAdjacentHTML("beforeend", row);
+    });
+}
 
-    // ==== Hành động ====
-    function lockCard(index) {
-        cardList[index].status = "Bị khóa";
-    renderCards();
-    alert("🔒 Đã khóa thẻ bạn đọc!");
-    }
+// 🔹 Lọc thẻ theo tên hoặc mã
+function filterCards() {
+    const keyword = document.getElementById("searchCard").value.toLowerCase();
+    const filtered = cards.filter(card =>
+        card.name.toLowerCase().includes(keyword) || card.code.toLowerCase().includes(keyword)
+    );
+    renderCards(filtered);
+}
 
-    function renewCard(index) {
-      const oldDate = new Date(cardList[index].expiry);
-    oldDate.setFullYear(oldDate.getFullYear() + 1);
-    cardList[index].expiry = oldDate.toISOString().split("T")[0];
-    cardList[index].status = "Hoạt động";
-    renderCards();
-    alert("🔄 Gia hạn thẻ thành công!");
+// 🔹 Khóa / mở khóa thẻ
+function toggleLock(code) {
+    const card = cards.find(c => c.code === code);
+    if (card) {
+        card.status = card.status === "Bị khóa" ? "Hoạt động" : "Bị khóa";
+        renderCards();
     }
+}
 
-    function approveRequest(id) {
-      const r = requestList.find(x => x.id === id);
-    r.status = "Đã duyệt";
-    renderRequests();
-    alert(`✅ Đã duyệt yêu cầu ${id}`);
+// 🔹 Duyệt yêu cầu
+function approveRequest(id) {
+    const req = requests.find(r => r.id === id);
+    if (req) {
+        req.status = "Đã duyệt";
+        alert(`✅ Yêu cầu ${req.id} đã được duyệt!`);
+        renderRequests();
     }
+}
 
-    function rejectRequest(id) {
-      const r = requestList.find(x => x.id === id);
-    r.status = "Từ chối";
-    renderRequests();
-    alert(`❌ Đã từ chối yêu cầu ${id}`);
+// 🔹 Từ chối yêu cầu
+function rejectRequest(id) {
+    const req = requests.find(r => r.id === id);
+    if (req) {
+        req.status = "Từ chối";
+        alert(`❌ Yêu cầu ${req.id} đã bị từ chối.`);
+        renderRequests();
     }
+}
 
-    function toggleSchedule() {
-      const box = document.getElementById("librarySchedule");
+// 🔹 Ẩn / hiện lịch thư viện
+function toggleSchedule() {
+    const box = document.getElementById("librarySchedule");
     box.style.display = box.style.display === "none" ? "block" : "none";
-    }
+}
 
-    function filterCards() {
-      const input = document.getElementById("searchCard").value.toLowerCase();
-    const rows = document.querySelectorAll("#cardBody tr");
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-    row.style.display = text.includes(input) ? "" : "none";
-      });
-    }
+// 🔹 Cập nhật thống kê
+function updateStats() {
+    const active = cards.filter(c => c.status === "Hoạt động").length;
+    const locked = cards.filter(c => c.status === "Bị khóa").length;
+    const pending = cards.filter(c => c.status === "Chờ duyệt").length;
+    const expirySoon = cards.reduce((a, b) =>
+        new Date(a.expiry) < new Date(b.expiry) ? a : b
+    );
 
-    // ==== Thống kê ====
-    function updateStats() {
-      const active = cardList.filter(c => c.status === "Hoạt động").length;
-      const locked = cardList.filter(c => c.status === "Bị khóa").length;
-      const pending = requestList.filter(r => r.status === "Chờ duyệt").length;
-      const expiry = cardList.map(c => new Date(c.expiry)).sort((a,b)=>a-b)[0];
     document.getElementById("stat-active").textContent = active;
     document.getElementById("stat-locked").textContent = locked;
     document.getElementById("stat-pending").textContent = pending;
-    document.getElementById("stat-expiry").textContent = expiry ? expiry.toISOString().split("T")[0] : "--";
+    document.getElementById("stat-expiry").textContent = formatDate(expirySoon.expiry);
+}
+
+// 🔹 Tiện ích định dạng ngày
+function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("vi-VN");
+}
+
+// 🔹 Lấy class màu trạng thái
+function getStatusClass(status) {
+    switch (status) {
+        case "Hoạt động": return "label-success";
+        case "Bị khóa": return "label-danger";
+        case "Chờ duyệt": return "label-warning";
+        default: return "label-default";
+    }
+}
+
+// 🔹 Khởi động khi trang load
+document.addEventListener("DOMContentLoaded", () => {
+    renderCards();
+    renderRequests();
+});
+
+
+
+
+//========================PHÂN TRANG ================////
+
+document.addEventListener("DOMContentLoaded", function () {
+    const rowsPerPage = 5; // mỗi trang hiển thị 5 dòng
+    const tableBody = document.querySelector("#tab-dangky tbody");
+    const pagination = document.querySelector(".pagination");
+
+    if (!tableBody || !pagination) return;
+
+    const rows = Array.from(tableBody.querySelectorAll("tr"));
+    const totalRows = rows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+    let currentPage = 1;
+
+    // 🧩 Hàm hiển thị từng trang
+    function renderPage(page) {
+        // Ẩn tất cả các dòng
+        rows.forEach(row => (row.style.display = "none"));
+
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        rows.slice(start, end).forEach(row => (row.style.display = ""));
+
+        renderPagination();
     }
 
-    // ==== Khởi tạo ====
-    document.addEventListener("DOMContentLoaded", () => {
-        renderCards();
-    renderRequests();
-    });
+    // 🧩 Vẽ thanh phân trang
+    function renderPagination() {
+        pagination.innerHTML = "";
 
-    function savePolicy() {
-        const group = policyGroup.value, type = policyType.value,
-    days = policyDays.value, limit = policyLimit.value;
-    if (!group || !type || !days || !limit) return alert("Vui lòng nhập đủ thông tin.");
-    localStorage.setItem("policy", JSON.stringify({group, type, days, limit}));
-    policySummary.innerHTML = `✅ Chính sách: <b>${group}</b> - ${type}, <b>${days}</b> ngày, tối đa <b>${limit}</b> cuốn.`;
-      }
-
-    function saveFineRule() {
-        const fine = finePerDay.value, max = fineMax.value, discount = fineDiscountGroup.value;
-    localStorage.setItem("fine", JSON.stringify({fine, max, discount}));
-    fineSummary.innerHTML = `💰 Phạt: ${fine}đ/ngày, tối đa ${max}đ. Giảm cho: ${discount || 'Không có'}.`;
-      }
-
-    function saveSchedule() {
-        const open = openTime.value, close = closeTime.value, off = Array.from(offDays.selectedOptions).map(o=>o.value);
-    localStorage.setItem("schedule", JSON.stringify({open, close, off}));
-    scheduleSummary.innerHTML = `🕒 ${open} - ${close}, nghỉ: ${off.join(", ")}`;
-      }
-
-    function kiemTraHopLe() {
-        const reader = checkReader.value, book = checkBookCode.value.trim();
-    if (!reader || !book) return alert("Vui lòng chọn bạn đọc và nhập mã sách.");
-    checkResult.style.display = "block";
-    checkResult.innerHTML = `✅ Giao dịch hợp lệ cho bạn đọc <b>${reader}</b> với sách <b>${book}</b>.`;
-      }
-
-    function exportConfig() {
-        const data = {
-        policy: JSON.parse(localStorage.getItem("policy") || "{ }"),
-    fine: JSON.parse(localStorage.getItem("fine") || "{ }"),
-    schedule: JSON.parse(localStorage.getItem("schedule") || "{ }"),
+        // Nút « Trước
+        const prev = document.createElement("li");
+        prev.className = currentPage === 1 ? "disabled" : "";
+        prev.innerHTML = `<a href="#">&laquo;</a>`;
+        prev.onclick = () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+            }
         };
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url; a.download = "config.json"; a.click();
-    configSummary.innerHTML = "💾 Đã xuất file cấu hình.";
-      }
+        pagination.appendChild(prev);
 
-    function importConfig(input) {
-        const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-        reader.onload = e => {
-          const data = JSON.parse(e.target.result);
-    localStorage.setItem("policy", JSON.stringify(data.policy || { }));
-    localStorage.setItem("fine", JSON.stringify(data.fine || { }));
-    localStorage.setItem("schedule", JSON.stringify(data.schedule || { }));
-    configSummary.innerHTML = "📥 Đã nhập cấu hình thành công.";
+        // Số trang
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement("li");
+            li.className = i === currentPage ? "active" : "";
+            li.innerHTML = `<a href="#">${i}</a>`;
+            li.onclick = () => {
+                currentPage = i;
+                renderPage(currentPage);
+            };
+            pagination.appendChild(li);
+        }
+
+        // Nút » Tiếp
+        const next = document.createElement("li");
+        next.className = currentPage === totalPages ? "disabled" : "";
+        next.innerHTML = `<a href="#">&raquo;</a>`;
+        next.onclick = () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
         };
-    reader.readAsText(file);
-}
-function showMuonTraAlert(message, type = "success") {
-    const alertBox = document.getElementById("muontraAlert");
-    alertBox.textContent = message;
-    alertBox.className = `muontra-alert show ${type}`;
-    setTimeout(() => {
-        alertBox.classList.remove("show");
-    }, 3000);
-}
+        pagination.appendChild(next);
+    }
+
+    // Khởi tạo
+    renderPage(1);
+});
 
 
-// =============================
-// 📑 SCRIPT CHUYỂN TAB CHÍNH
-// =============================
-document.addEventListener("DOMContentLoaded", () => {
-    const tabs = document.querySelectorAll(".main-tabs li");
-    const contents = document.querySelectorAll(".tab-content");
 
-    tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-            // Bỏ active khỏi tất cả tab
-            tabs.forEach(t => t.classList.remove("active"));
-            // Gắn active cho tab được chọn
-            tab.classList.add("active");
+//===========ĐANG MƯỢN ==============//
+document.addEventListener("DOMContentLoaded", function () {
+    const table = document.querySelector("#tab-dangmuon table");
 
-            // Ẩn tất cả nội dung
-            contents.forEach(c => c.classList.remove("active"));
+    // Gắn sự kiện cho tất cả nút "Gia hạn"
+    table.addEventListener("click", function (e) {
+        if (e.target.closest(".btn-giahan")) {
+            const row = e.target.closest("tr");
+            const member = row.children[1].textContent.trim();
+            const title = row.children[2].textContent.trim();
 
-            // Lấy id của nội dung cần hiển thị
-            const targetId = tab.getAttribute("data-tab");
-            const target = document.getElementById(targetId);
-            if (target) target.classList.add("active");
-        });
+            // Hiển thị xác nhận
+            if (confirm(`Gia hạn thêm 7 ngày cho "${title}" của ${member}?`)) {
+                const hanTra = row.children[4];
+                const currentDate = new Date(hanTra.textContent.trim().split("/").reverse().join("-"));
+                currentDate.setDate(currentDate.getDate() + 7);
+                const newDate = currentDate.toLocaleDateString("vi-VN");
+
+                hanTra.textContent = newDate;
+                alert(`✅ Gia hạn thành công đến ngày ${newDate}!`);
+            }
+        }
     });
 });
+
+
+//===================ĐÃ TRẢ ========================//
+document.addEventListener("DOMContentLoaded", function () {
+    const tableDaTra = document.querySelector("#tab-datra table");
+    let currentBook = "";
+
+    // Khi nhấn nút "Đánh giá"
+    tableDaTra.addEventListener("click", function (e) {
+        const btn = e.target.closest(".btn-rate");
+        if (!btn) return;
+
+        const row = btn.closest("tr");
+        currentBook = row.children[2].textContent.trim();
+
+        document.getElementById("bookName").value = currentBook;
+        $("#modalDanhGia").modal("show");
+    });
+
+    // Khi nhấn "Lưu đánh giá"
+    document.getElementById("btnLuuDanhGia").addEventListener("click", function () {
+        const score = document.getElementById("ratingScore").value;
+        const comment = document.getElementById("ratingComment").value.trim();
+
+        if (comment === "") {
+            alert("Vui lòng nhập nhận xét trước khi lưu!");
+            return;
+        }
+
+        // Hiển thị kết quả tạm (sau này bạn có thể gửi API)
+        $("#modalDanhGia").modal("hide");
+        alert(`✅ Đánh giá đã lưu!\n📘 Sách: ${currentBook}\n⭐ Điểm: ${score}/5\n💬 Nhận xét: ${comment}`);
+
+        // Reset form
+        document.getElementById("formDanhGia").reset();
+    });
+});
+
+
+
+//====================== QUÁ HẠN ====================//
+document.addEventListener("DOMContentLoaded", function () {
+    const tableQuaHan = document.querySelector("#tab-quahan table");
+    const modal = $("#modalLienHe");
+
+    tableQuaHan.addEventListener("click", function (e) {
+        const btn = e.target.closest(".btn-danger");
+        if (!btn) return;
+
+        const row = btn.closest("tr");
+        const member = row.children[1].textContent.trim();
+        const book = row.children[2].textContent.trim();
+
+        document.getElementById("lhTenThanhVien").value = member;
+        document.getElementById("lhTenSach").value = book;
+        document.getElementById("lhNoiDung").value =
+            `Xin chào ${member},\n\nHệ thống thư viện thông báo sách "${book}" của bạn đã quá hạn. ` +
+            `Vui lòng đến trả hoặc gia hạn mượn sớm nhất có thể.\n\nTrân trọng.`;
+
+        modal.modal("show");
+    });
+
+    document.getElementById("btnGuiLienHe").addEventListener("click", function () {
+        const member = document.getElementById("lhTenThanhVien").value;
+        const book = document.getElementById("lhTenSach").value;
+        modal.modal("hide");
+        alert(`✅ Đã gửi nhắc nhở tới ${member}\n📚 Sách: ${book}`);
+    });
+});
+

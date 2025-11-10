@@ -1,0 +1,186 @@
+﻿@* Razor view: Trang cá nhân tài khoản (Bootstrap 3 - hiện đại, rõ ràng) *@
+@{
+    var userName = "Nguyễn Văn A";
+    var userEmail = "nguyenvana@example.com";
+    var joinDate = new DateTime(2021, 5, 12).ToString("dd/MM/yyyy");
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trang cá nhân - @userName</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/canhan.css" />
+</head>
+<body>
+    <div class="row CaNhanBody">
+            <!-- Cột trái -->
+            <div class="col-sm-4">
+                <div class="profile-card">
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar" class="avatar">
+                        </div>
+                        <div class="media-body" style="margin-left:15px; margin-top:5px;">
+                            <h4 class="media-heading">@userName</h4>
+                            <div class="small-muted">@userEmail</div>
+                            <div class="intro-text">Thành viên yêu sách và thích khám phá tri thức 📚</div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row text-center">
+                        <div class="col-xs-4 stat">
+                            <div class="num">12</div>
+                            <div class="small-muted">Sách mượn</div>
+                        </div>
+                        <div class="col-xs-4 stat">
+                            <div class="num">3</div>
+                            <div class="small-muted">Đang giữ</div>
+                        </div>
+                        <div class="col-xs-4 stat">
+                            <div class="num">45</div>
+                            <div class="small-muted">Lịch sử</div>
+                        </div>
+                    </div>
+                    <hr />
+                    <p class="small-muted">Ngày tham gia</p>
+                    <p><strong>@joinDate</strong></p>
+                    <a href="#settings" class="btn-profile btn-profile-outline btn-profile-block"><i class="fa fa-cog"></i> Cài đặt tài khoản</a>
+                </div>
+
+                <div class="profile-card">
+                    <div class="section-title"><i class="fa fa-address-card"></i> Thông tin liên hệ</div>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fa fa-phone"></i></div>
+                            <div class="contact-text">
+                                <div class="contact-label">Số điện thoại</div>
+                                <div class="contact-value">(0123) 456-789</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fa fa-envelope"></i></div>
+                            <div class="contact-text">
+                                <div class="contact-label">Email</div>
+                                <div class="contact-value">@userEmail</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="fa fa-map-marker-alt"></i></div>
+                            <div class="contact-text">
+                                <div class="contact-label">Địa chỉ</div>
+                                <div class="contact-value">Biên Hòa, Đồng Nai</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột phải -->
+            <div class="col-sm-8">
+
+                <div class="profile-card">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <h4><i class="fa fa-user"></i> Tổng quan tài khoản</h4>
+                            <div class="small-muted">Cập nhật lần cuối: 10/10/2025</div>
+                        </div>
+                        <div class="pull-right">
+                            <button class="btn-profile btn-profile-outline btn-xs"><i class="fa fa-upload"></i> Tải ảnh hồ sơ</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <form>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Họ và tên</label>
+                                <input type="text" class="form-control input-sm" value="@userName">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control input-sm" value="@userEmail">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Số điện thoại</label>
+                                <input type="text" class="form-control input-sm" placeholder="(0123) 456-789">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label>Địa chỉ</label>
+                                <input type="text" class="form-control input-sm" placeholder="Thành phố, Quận/Huyện">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Giới thiệu</label>
+                            <textarea class="form-control input-sm" rows="3" placeholder="Viết vài dòng về bạn..."></textarea>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn-profile btn-profile-default btn-sm">Hủy</button>
+                            <button type="submit" class="btn-profile btn-profile-primary btn-sm">Lưu thay đổi</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="profile-card">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <h4><i class="fa fa-history"></i> Hoạt động gần đây</h4>
+                            <div class="small-muted">Những cập nhật và lịch sử gần đây</div>
+                        </div>
+                        <div class="pull-right small-muted">Xem tất cả</div>
+                    </div>
+                    <hr />
+                    <div class="recent-item clearfix">
+                        <div class="pull-left">
+                            <strong>Mượn sách: "Lập trình C#"</strong>
+                            <div class="small-muted">Hôm qua • Trả trước: 05/11/2025</div>
+                        </div>
+                        <div class="pull-right small-muted">Trạng thái: Đang mượn</div>
+                    </div>
+                    <div class="recent-item clearfix">
+                        <div class="pull-left">
+                            <strong>Đánh giá: "Thiết kế Web đẹp"</strong>
+                            <div class="small-muted">3 ngày trước</div>
+                        </div>
+                        <div class="pull-right small-muted"><i class="fa fa-star text-warning"></i> 5 sao</div>
+                    </div>
+                    <div class="recent-item clearfix">
+                        <div class="pull-left">
+                            <strong>Đổi mật khẩu</strong>
+                            <div class="small-muted">10/10/2025</div>
+                        </div>
+                        <div class="pull-right small-muted text-success"><i class="fa fa-check-circle"></i> Thành công</div>
+                    </div>
+                </div>
+
+                <div id="settings" class="profile-card">
+                    <h4><i class="fa fa-shield-alt"></i> Cài đặt & Quyền riêng tư</h4>
+                    <hr />
+                    <form>
+                        <div class="checkbox">
+                            <label><input type="checkbox" checked> Nhận thông báo qua email</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox"> Hiển thị hồ sơ công khai</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngôn ngữ</label>
+                            <select class="form-control input-sm" style="max-width: 200px;">
+                                <option>Tiếng Việt</option>
+                                <option>English</option>
+                            </select>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn-profile btn-profile-danger btn-sm"><i class="fa fa-trash"></i> Xóa tài khoản</button>
+                            <button type="submit" class="btn-profile btn-profile-primary btn-sm"><i class="fa fa-save"></i> Lưu cài đặt</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+    </div>
+</body>
+</html>

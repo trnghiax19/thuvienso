@@ -8,52 +8,111 @@
     <link rel="stylesheet" href="~/css/TrangChu.css" />
 </head>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const titles = document.querySelectorAll(".animated-title");
+
+        function revealTitles() {
+            titles.forEach(title => {
+                const rect = title.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    title.classList.add("show");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", revealTitles);
+        revealTitles(); // gọi lần đầu để hiện phần trên cùng
+    });
+</script>
+
+
 <body>
     <!-- HERO -->
     <section class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="~/image/video/Intro_ThuVienSo.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
         <div class="hero-content">
-            <h1>📚 THƯ VIỆN SỐ TRẤN BIÊN</h1>
-            <p style="font-weight:bold">Kho tri thức mở – tra cứu, đọc và chia sẻ tài liệu mọi lúc, mọi nơi.</p>
-            <a href="~/TimKiem/Index" class="btn btn-warning btn-lg">
+            <h3 style="font-weight:bold">Chào Mừng Đến</h3>
+            <h1 style="font-weight:bold">THƯ VIỆN SỐ TRẤN BIÊN</h1>
+            <h4 style="font-weight:bold">Kho tri thức mở – tra cứu, đọc và chia sẻ tài liệu mọi lúc, mọi nơi.</h4>
+            <p></p>
+            <a href="~/TimKiem/Index" class="btn btn-tracuu">
                 <i class="glyphicon glyphicon-search"></i> Tra cứu ngay
             </a>
-        </div>
-    </section>
 
-    <!-- TÍNH NĂNG -->
-    <div class="features text-center">
-        <h3 class="text-primary"><i class="glyphicon glyphicon-star"></i> Tính năng nổi bật</h3>
-        <div class="row" style="margin-top: 25px;">
-            <div class="col-sm-4">
-                <div class="feature-box">
-                    <i class="glyphicon glyphicon-search text-info"></i>
-                    <h4>Tra cứu thông minh</h4>
-                    <p>
-                        Tìm kiếm toàn văn, theo danh mục, ngôn ngữ, từ khóa.
-                        Kết quả hiển thị nhanh và được làm nổi bật thông minh.
-                    </p>
+            <!-- ===== THỐNG KÊ NGAY TRONG HERO ===== -->
+            <div class="stats-inline">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="glyphicon glyphicon-book"></i>
+                    </div>
+                    <h3 class="counter" data-target="12450">0</h3>
+                    <p>Ấn phẩm & Tài liệu</p>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="feature-box">
-                    <i class="glyphicon glyphicon-globe text-success"></i>
-                    <h4>Giao diện thân thiện</h4>
-                    <p>Tối ưu hiển thị đa thiết bị, hỗ trợ đa ngôn ngữ và gõ tiếng Việt dễ dàng.</p>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </div>
+                    <h3 class="counter" data-target="8200">0</h3>
+                    <p>Người dùng đăng ký</p>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="feature-box">
-                    <i class="glyphicon glyphicon-cloud text-warning"></i>
-                    <h4>Khai thác dữ liệu số</h4>
-                    <p>Truy cập, xem và tải tài liệu số có bản quyền, đảm bảo tính xác thực.</p>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="glyphicon glyphicon-download-alt"></i>
+                    </div>
+                    <h3 class="counter" data-target="35600">0</h3>
+                    <p>Lượt tải tài liệu</p>
                 </div>
             </div>
         </div>
+    </section>  
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const counters = document.querySelectorAll(".counter");
+
+            const animateCounters = () => {
+                counters.forEach(counter => {
+                    const updateCount = () => {
+                        const target = +counter.getAttribute("data-target");
+                        const current = +counter.innerText.replace(/\D/g, "");
+                        const increment = target / 100; // tốc độ (100 bước)
+
+                        if (current < target) {
+                            counter.innerText = Math.ceil(current + increment).toLocaleString();
+                            setTimeout(updateCount, 25); // thời gian giữa mỗi bước (ms)
+                        } else {
+                            counter.innerText = target.toLocaleString(); // dừng đúng giá trị
+                        }
+                    };
+                    updateCount();
+                });
+            };
+
+            // Gọi khi phần HERO hiển thị
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    animateCounters();
+                    observer.disconnect(); // chỉ chạy 1 lần
+                }
+            }, { threshold: 0.5 });
+
+            observer.observe(document.querySelector(".stats-inline"));
+        });
+    </script>
+
 
     <!-- TÀI LIỆU NỔI BẬT -->
     <div class="documents text-center" style="margin-top: 50px;">
-        <h3 class="text-primary"><i class="glyphicon glyphicon-book"></i> Tài liệu điện tử</h3>
-        <ul class="nav nav-tabs" style="margin-top: 20px;">
+        <h1 class="text-primary text-uppercase strong text-center"
+            style="letter-spacing: 2px; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); font-weight:bold;">
+            TÀI LIỆU ĐIỆN TỬ
+        </h1>
+
+        <ul class="nav nav-tabs nav-justified" style="margin-top: 20px; ">
             <li class="active"><a data-toggle="tab" href="#noibat">🔥 Nổi bật</a></li>
             <li><a data-toggle="tab" href="#dexuat">💡 Được đề xuất</a></li>
             <li><a data-toggle="tab" href="#moitao">🕒 Mới tải lên</a></li>
@@ -72,8 +131,8 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="doc-card">
-                                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=60" class="img-responsive img-rounded" alt="Tài liệu 8">
-                                <h5><a href="#">Phân tích kinh tế</a></h5>
+                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=60" class="img-responsive img-rounded" alt="Tài liệu 8">
+                            <h5><a href="#">Phân tích kinh tế</a></h5>
                             <p>📈 982 lượt xem</p>
                         </div>
                     </div>
@@ -92,7 +151,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="doc-card">
-                                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=60" alt="Kinh tế học" class="img-responsive img-rounded">
+                            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=60" alt="Kinh tế học" class="img-responsive img-rounded">
                             <h5><a href="#">Nhập môn Kinh tế học</a></h5>
                             <p>⭐ Gợi ý từ AI dựa trên sở thích đọc</p>
                         </div>
@@ -142,6 +201,39 @@
             </div>
         </div>
     </div>
+
+    <!-- ==================== TÍNH NĂNG NỔI BẬT ==================== -->
+    <div class="features text-center">
+        <h1 class="animated-title text-uppercase strong text-center"
+            style="letter-spacing: 2px; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); font-weight:bold; color:aliceblue;">
+            TÍNH NĂNG NỔI BẬT
+        </h1>
+        <div class="row" style="margin-top: 25px;">
+            <!-- Card 1 -->
+            <div class="col-sm-4">
+                <div class="feature-box" style="background: url('https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;">
+                    <div class="feature-overlay">
+                        <h4>Tra cứu thông minh<br>hiển thị kết quả tức thì</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-sm-4">
+                <div class="feature-box" style="background: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;">
+                    <div class="feature-overlay">
+                        <h4>Giao diện thân thiện<br>dễ sử dụng trên mọi thiết bị</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col-sm-4">
+                <div class="feature-box" style="background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;">
+                    <div class="feature-overlay">
+                        <h4>Khai thác dữ liệu số<br>an toàn và hiệu quả</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,179 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quên mật khẩu - Thư viện số</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #2b5876, #4e4376);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .forgot-wrapper {
+            width: 100%;
+            max-width: 430px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            padding: 50px 40px 45px;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .illustration {
+            margin-bottom: 20px;
+        }
+
+            .illustration img {
+                width: 160px;
+                height: auto;
+                object-fit: contain;
+            }
+
+        h2 {
+            color: #2b5876;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            height: 45px;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: #2b5876;
+                box-shadow: 0 0 8px rgba(43, 88, 118, 0.3);
+            }
+
+        .btn-reset {
+            width: 100%;
+            border-radius: 25px;
+            background: linear-gradient(90deg, #2b5876, #4e4376);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-reset:hover {
+                background: linear-gradient(90deg, #3c6d92, #5b4e91);
+                transform: scale(1.03);
+            }
+
+        .forgot-links {
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+            .forgot-links a {
+                color: #2b5876;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+                .forgot-links a:hover {
+                    text-decoration: underline;
+                }
+
+        @@media (max-width: 480px) {
+            .forgot-wrapper
+
+        {
+            padding: 35px 25px;
+            max-width: 90%;
+        }
+
+        .illustration img {
+            width: 130px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="forgot-wrapper">
+        <!-- ✅ Ảnh minh họa thật, hiển thị được -->
+        <div class="illustration">
+            <img src="~/image/gif/resetpassword.gif"
+                 alt="Forgot Password">
+        </div>
+
+        <h2>Quên mật khẩu?</h2>
+        <p>Nhập địa chỉ email của bạn để nhận liên kết đặt lại mật khẩu.</p>
+
+        <form id="forgotForm">
+            <input id="email" type="email" class="form-control" placeholder="Nhập email của bạn" required>
+            <button type="submit" class="btn btn-reset">Gửi liên kết đặt lại</button>
+        </form>
+
+        <div class="forgot-links">
+            <p><a href="/TaiKhoan/DangNhap">⬅ Quay lại đăng nhập</a></p>
+            <p>Chưa có tài khoản? <a href="/TaiKhoan/DangKy">Đăng ký ngay</a></p>
+        </div>
+    </div>
+
+    <script>
+        // 🔹 Giả lập gửi email đặt lại mật khẩu
+        document.getElementById('forgotForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            if (email) {
+                alert('📧 Liên kết đặt lại mật khẩu đã được gửi đến ' + email + '. Vui lòng kiểm tra hộp thư!');
+                window.location.href = '/TaiKhoan/DangNhap';
+            }
+        });
+    </script>
+</body>
+</html>

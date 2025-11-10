@@ -1,6 +1,6 @@
 ﻿body, html {
     height: 100%;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
     background-color: #fcfcfc;
     padding-bottom: 60px;
     display: flex;
@@ -8,6 +8,14 @@
     flex-direction: column;
 }
 
+.title-sidebar
+{
+    margin-left:5px;
+}
+
+.row {
+    margin: 0;
+}
 /* ===== Scrollbar ===== */
 ::-webkit-scrollbar {
     width: 10px;
@@ -52,6 +60,7 @@
         padding: 12px 20px;
         font-size: 15px;
         border-left: 4px solid transparent;
+
         transition: background-color 0.2s, color 0.2s;
     }
 
@@ -64,8 +73,9 @@
         .sidebar .nav > li.active > a,
         .sidebar .nav > li > a:focus,
         .sidebar .nav > li > a:active {
-            background-color: #dee2e6 !important;
-            color: #000 !important;
+            background-color: #3875b6 !important;
+            font-weight:bold;
+            color: #ffffff !important;
             border-left: 4px solid #007bff;
             outline: none !important;
             box-shadow: none !important;
@@ -183,27 +193,38 @@
 }
 
 /* ===== Footer ===== */
-footer.navbar {
-    margin-bottom: 0;
-    border-radius: 0;
-    background-color: #f8f9fa;
-    color: #555;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid #ddd;
+.footer-links li {
+    margin-bottom: 8px;
 }
 
-    footer.navbar a {
-        color: #555;
+.footer-links a {
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+    .footer-links a:hover {
+        color: #0d6efd;
+        padding-left: 3px;
     }
 
-        footer.navbar a:hover {
-            color: #000;
-            text-decoration: none;
-        }
+.text-left-sm {
+    text-align: left;
+}
 
+@media (max-width: 767px) {
+    .text-left-sm {
+        text-align: center;
+    }
+
+    footer .col-sm-4 {
+        border: none !important;
+    }
+
+    footer img {
+        margin: 0 auto;
+    }
+}
 /* ===== Navbar (Bootstrap 3 tuỳ chỉnh) ===== */
 .navbar-default {
     background-color: #ffffff; /* nền trắng */

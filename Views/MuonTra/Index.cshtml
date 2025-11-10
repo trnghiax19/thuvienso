@@ -2,6 +2,26 @@
 @using X.PagedList.Mvc.Core
 @model IPagedList<ThuVienSo.Models.MuonTra>
 
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
+
+<!-- Daterangepicker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
 <script src="~/js/muontra.js"></script>
 
 <link rel="stylesheet" href="/css/muontra.css" />
@@ -11,170 +31,745 @@
 <!-- ================= TAB CHÍNH ================= -->
 <div class="tabs-wrapper">
     <ul class="main-tabs">
-        <li class="active" data-tab="muontra-tab">📚 Mượn - Trả</li>
-        <li data-tab="chinh-sach-tab">⚖️ Chính Sách</li>
-        <li data-tab="lich-tab">📅 Lịch / Thẻ</li>
+        <li class="active" data-tab="muontra-tab">📚 MƯỢN - TRẢ</li>
+        <li data-tab="chinh-sach-tab">⚖️ CHÍNH SÁCH</li>
+        <li data-tab="lich-tab">📅 LỊCH / THẺ</li>
     </ul>
 
-    <!-- ====== TAB 1: MƯỢN TRẢ ====== -->
-    <div id="muontra-tab" class="tab-content active">
-        <div class="muontra-container">
-            <h2>📚 Giao dịch Mượn - Trả</h2>
+    <!-- ==================== DANH SÁCH MƯỢN – TRẢ ==================== -->
+    <div id="muontra-tab" class="tab-content">
 
-            <!-- PHẦN 1: Thông tin bạn đọc -->
-            <div class="form-section">
-                <h3>Thông tin bạn đọc</h3>
-                <div class="reader-table-container" style="margin-top:15px;">
-                    <table class="reader-table">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã số</th>
-                                <th>Họ và tên</th>
-                                <th>Địa điểm</th>
-                                <th>SĐT</th>
-                                <th>Địa chỉ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="readerInfoTable"></tbody>
-                    </table>
-                    <div id="readerPagination" class="pagination" style="margin-top:10px; text-align:center;"></div>
-                    <div id="alertBox" class="alert-box"></div>
+        <!-- 🔹 Phần panel-heading đã được đưa vào đúng vị trí -->
+        <div class="panel-heading clearfix">
+            <h3 class="panel-title pull-left" style="margin-top:5px;">
+                <i class="fa fa-book"></i> Danh sách Mượn – Trả
+            </h3>
+            <div class="pull-right">
+                <button class="btn btn-success btn-sm" id="btnMuonSach" data-toggle="modal" data-target="#muonSachModal">
+                    <i class="fa fa-plus-circle"></i> Mượn Sách
+                </button>
+                <button class="btn btn-primary btn-sm" id="btnTraSach">
+                    <i class="fa fa-undo"></i> Trả Sách
+                </button>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+
+            <!-- ✅ Sub-tabs (trạng thái mượn trả) -->
+            <div class="btn-group" id="subTabGroup">
+                <button class="btn btn-success active" data-subtab="tab-dangky">Đã đăng ký mượn (3)</button>
+                <button class="btn btn-warning" data-subtab="tab-dangmuon">Đang mượn (2)</button>
+                <button class="btn btn-info" data-subtab="tab-datra">Đã trả (1)</button>
+                <button class="btn btn-danger" data-subtab="tab-quahan">Quá hạn trả (1)</button>
+            </div>
+
+            <!-- ✅ Bộ lọc người dùng -->
+            <div class="btn-group" style="margin-left:10px;">
+                <button class="btn btn-default active">Học sinh</button>
+                <button class="btn btn-default">Giáo viên</button>
+            </div>
+
+            <!-- ✅ Bộ lọc tìm kiếm -->
+            <div class="row" style="margin-top:15px;">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="🔍 Nhập mã thành viên hoặc nhan đề sách">
+                </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="text" class="form-control" id="dateRange" placeholder="Ngày bắt đầu - Ngày kết thúc">
                 </div>
             </div>
 
-            <!-- PHẦN 2: Thông tin sách -->
-            <div class="book-list-container" style="margin-top: 20px;">
-                <h4>📖 Danh sách sách trong kho</h4>
-                <table class="book-table">
-                    <thead>
-                        <tr>
-                            <th>Mã</th>
-                            <th>Tên sách</th>
-                            <th>Loại</th>
-                            <th>Kho</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="allBookTable"></tbody>
-                </table>
-                <div id="bookPagination" class="pagination" style="margin-top:10px; text-align:center;"></div>
+                <div class="col-md-2 text-right">
+                    <button class="btn btn-default"><i class="fa fa-refresh"></i> Tải lại</button>
+                </div> <div class="col-md-2 text-right">
+                    <div class="col-md-2 text-right">
+                        <button id="btnMoModal" class="btn btn-add">➕ Đăng ký số mới</button>
+                    </div>
+                </div>
             </div>
 
-            <hr style="margin: 30px 0;">
+                <!-- ✅ Nội dung các sub-tab -->
+                <div class="subtab-container" style="margin-top:15px;">
 
-            <h4>📚 Danh sách mượn hiện tại</h4>
-            <table class="book-table">
-                <thead>
-                    <tr>
-                        <th>Mã sách</th>
-                        <th>Tên sách</th>
-                        <th>Loại</th>
-                        <th>Ngày mượn</th>
-                        <th>Ngày trả</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody id="bookList"></tbody>
-            </table>
-        </div>
-
-        <!-- PHẦN 3: Hành động -->
-        <div class="action-buttons text-center mt-3">
-            <button id="btnSave" class="btn btn-success">💾 Lưu giao dịch</button>
-            <button id="btnClear" class="btn btn-danger">🗑️ Hủy giao dịch</button>
-        </div>
-
-        <!-- Giao dịch đã lưu -->
-        <div class="saved-transactions-card" id="savedTransactionsContainer" style="margin-top:30px;">
-            <h3>💾 Giao dịch đã lưu (demo)</h3>
-            <div class="table-responsive">
-                <table id="savedTransactionsTable" class="table table-striped table-hover align-middle text-center">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Bạn đọc</th>
-                            <th>Số lượng sách</th>
-                            <th>Thời gian lưu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="4" class="text-muted">Chưa có giao dịch nào</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- PHẦN 4: In / Bỏ qua phạt -->
-        <div class="footer-section-4">
-            <button class="btn-receipt" onclick="printReceipt()">🧾 In biên nhận</button>
-            <button class="btn-penalty" onclick="skipPenalty('admin')">🚫 Bỏ qua phạt</button>
-        </div>
-
-        <!-- ==================== DANH SÁCH MƯỢN TRẢ ==================== -->
-        <div class="muontra-card">
-            <h3>📘 Danh sách Mượn – Trả</h3>
-
-            <form asp-action="Index" method="get" class="muontra-search">
-                <input type="text" name="searchString" value="@ViewBag.SearchString"
-                       placeholder="🔍 Tìm theo bạn đọc hoặc tên sách..." class="form-control" />
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-            </form>
-
-            <div class="table-responsive">
-                <table class="table table-striped table-hover muontra-table">
-                    <thead class="table-primary">
-                        <tr>
-                            <th>Stt</th>
-                            <th>Bạn đọc</th>
-                            <th>Tên sách</th>
-                            <th>Ngày mượn</th>
-                            <th>Ngày trả</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null && Model.Any())
-                        {
-                            foreach (var item in Model)
-                            {
+                    <!-- 🟩 Đã đăng ký mượn -->
+                    <div id="tab-dangky" class="subtab-content active">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover text-center">
+                                <thead>
+                                    <tr class="info">
+                                        <th style="width:20px;"><input type="checkbox"></th>
+                                        <th>Thành viên</th>
+                                        <th>Nhan đề</th>
+                                        <th>Số ĐKCB</th>
+                                        <th>Bìa</th>
+                                        <th>Đăng ký</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                 <tr>
-                                    <td>@item.Id</td>
-                                    <td>@item.TenBanDoc</td>
-                                    <td>@item.TenSach</td>
-                                    <td>@item.NgayMuon.ToString("dd/MM/yyyy")</td>
-                                    <td>@item.NgayTra?.ToString("dd/MM/yyyy")</td>
+                                    <td><input type="checkbox"></td>
                                     <td>
-                                        <a href="javascript:void(0);"
-                                           onclick="confirmHold('@item.TenSach')"
-                                           class="btn btn-sm btn-warning">
-                                            📚 Giữ chỗ
-                                        </a>
+                                        <strong>Tài khoản demo Giáo viên</strong><br>
+                                        <a href="#">Giáo viên</a>
+                                    </td>
+                               
+                                    <td class="text-left">
+                                        <strong>Sách giáo khoa Ngữ văn 7 - Tập 2 Cánh Diều</strong><br>
+                                        <small>GS.TS. Nguyễn Minh Thuyết, Lê Thị Tuyết Hạnh...</small>
+                                    </td>
+                                    <td><span class="label label-info">SGK0054</span></td>
+                                    <td><img src="https://via.placeholder.com/40x55?text=Văn" class="img-thumbnail"></td>
+                                    <td>07/06/2025<br><small>20:42:46</small></td>
+                                    <td><span class="label label-success">Đã xác nhận</span></td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs"><i class="fa fa-check"></i> Cho mượn</button>
+                                        <button class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Hủy</button>
+                                        <button class="btn btn-default btn-xs btn-in-bien-nhan">
+                                            <i class="fa fa-print"></i> In biên nhận
+                                        </button>
                                     </td>
                                 </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="6" class="text-center text-muted">Không có dữ liệu mượn – trả</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <strong>Tài khoản demo Học sinh 01</strong><br>
+                                        <a href="#">Lớp 7A1</a>
+                                    </td>
+                                
+                                    <td class="text-left">
+                                        <strong>Sách giáo khoa Toán 7 - Tập 1 Cánh Diều</strong><br>
+                                        <small>PGS.TS. Đỗ Tiến Đạt, Nguyễn Áng...</small>
+                                    </td>
+                                    <td><span class="label label-info">SGK0053</span></td>
+                                    <td><img src="https://via.placeholder.com/40x55?text=Toán" class="img-thumbnail"></td>
+                                    <td>07/06/2025<br><small>20:45:18</small></td>
+                                    <td><span class="label label-warning">Chờ duyệt</span></td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs"><i class="fa fa-check"></i> Cho mượn</button>
+                                        <button class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Hủy</button>
+                                        <button class="btn btn-default btn-xs btn-in-bien-nhan">
+                                            <i class="fa fa-print"></i> In biên nhận
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <strong>Tài khoản demo Học sinh 02</strong><br>
+                                        <a href="#">Lớp 7A2</a>
+                                    </td>
+                                
+                                    <td class="text-left">
+                                        <strong>Sách giáo khoa Tiếng Anh 7 - Explore English</strong><br>
+                                        <small>NXB Giáo dục Việt Nam, Pearson...</small>
+                                    </td>
+                                    <td><span class="label label-info">SGK0055</span></td>
+                                    <td><img src="https://via.placeholder.com/40x55?text=Anh" class="img-thumbnail"></td>
+                                    <td>07/06/2025<br><small>20:47:05</small></td>
+                                    <td><span class="label label-success">Đã xác nhận</span></td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs"><i class="fa fa-check"></i> Cho mượn</button>
+                                        <button class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Hủy</button>
+                                        <button class="btn btn-default btn-xs btn-in-bien-nhan">
+                                            <i class="fa fa-print"></i> In biên nhận
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <strong>Tài khoản demo Học sinh 03</strong><br>
+                                        <a href="#">Lớp 7A3</a>
+                                    </td>
+                                
+                                    <td class="text-left">
+                                        <strong>Sách giáo khoa Lịch sử & Địa lí 7 - Cánh Diều</strong><br>
+                                        <small>TS. Nguyễn Xuân Trường, Phạm Văn Quang...</small>
+                                    </td>
+                                    <td><span class="label label-info">SGK0056</span></td>
+                                    <td><img src="https://via.placeholder.com/40x55?text=Sử" class="img-thumbnail"></td>
+                                    <td>07/06/2025<br><small>20:49:32</small></td>
+                                    <td><span class="label label-default">Đã hủy</span></td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs"><i class="fa fa-check"></i> Cho mượn</button>
+                                        <button class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Hủy</button>
+                                        <button class="btn btn-default btn-xs btn-in-bien-nhan">
+                                            <i class="fa fa-print"></i> In biên nhận
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <strong>Tài khoản demo Học sinh 04</strong><br>
+                                        <a href="#">Lớp 7A4</a>
+                                    </td>
+                                
+                                    <td class="text-left">
+                                        <strong>Sách giáo khoa Khoa học tự nhiên 7 - Cánh Diều</strong><br>
+                                        <small>GS.TS. Trần Kiều, Vũ Văn Dũng...</small>
+                                    </td>
+                                    <td><span class="label label-info">SGK0057</span></td>
+                                    <td><img src="https://via.placeholder.com/40x55?text=KHTN" class="img-thumbnail"></td>
+                                    <td>07/06/2025<br><small>20:52:11</small></td>
+                                    <td><span class="label label-success">Đã xác nhận</span></td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs"><i class="fa fa-check"></i> Cho mượn</button>
+                                        <button class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Hủy</button>
+                                        <button class="btn btn-default btn-xs btn-in-bien-nhan">
+                                            <i class="fa fa-print"></i> In biên nhận
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <strong>Tài khoản demo Học sinh 05</strong><br>
+                                        <a href="#">Lớp 7A5</a>
+                                    </td>
+                                
+                                    <td class="text-left">
+                                        <strong>Sách giáo khoa Công nghệ 7 - Cánh Diều</strong><br>
+                                        <small>PGS.TS. Nguyễn Văn Biên, Trần Văn Hùng...</small>
+                                    </td>
+                                    <td><span class="label label-info">SGK0058</span></td>
+                                    <td><img src="https://via.placeholder.com/40x55?text=CN" class="img-thumbnail"></td>
+                                    <td>07/06/2025<br><small>20:55:27</small></td>
+                                    <td><span class="label label-warning">Chờ duyệt</span></td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs"><i class="fa fa-check"></i> Cho mượn</button>
+                                        <button class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Hủy</button>
+                                        <button class="btn btn-default btn-xs btn-in-bien-nhan">
+                                            <i class="fa fa-print"></i> In biên nhận
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                <!-- 🟨 Đang mượn -->
+                <!-- 🟨 Đang mượn -->
+                <div id="tab-dangmuon" class="subtab-content" style="display:none;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr class="warning">
+                                    <th style="width:20px;"><input type="checkbox"></th>
+                                    <th>Thành viên</th>
+                                    <th>Nhan đề</th>
+                                    <th>Ngày mượn</th>
+                                    <th>Hạn trả</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th> <!-- 🆕 Thêm cột -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>tk_demo_gv 1</td>
+                                    <td>Sách giáo khoa Toán 7 - Tập 1 Cánh Diều</td>
+                                    <td>07/06/2025</td>
+                                    <td>14/06/2025</td>
+                                    <td><span class="label label-warning">Đang mượn</span></td>
+                                    <td>
+                                        <button class="btn btn-info btn-xs btn-giahan">
+                                            <i class="fa fa-clock-o"></i> Gia hạn
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>tk_demo_gv 2</td>
+                                    <td>Sách giáo khoa Toán 7 - Tập 2 Cánh Diều</td>
+                                    <td>07/06/2025</td>
+                                    <td>14/06/2025</td>
+                                    <td><span class="label label-warning">Đang mượn</span></td>
+                                    <td>
+                                        <button class="btn btn-info btn-xs btn-giahan">
+                                            <i class="fa fa-clock-o"></i> Gia hạn
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!-- 🟦 Đã trả -->
+                <div id="tab-datra" class="subtab-content" style="display:none;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr class="info">
+                                    <th style="width:20px;"><input type="checkbox"></th>
+                                    <th>Thành viên</th>
+                                    <th>Nhan đề</th>
+                                    <th>Ngày mượn</th>
+                                    <th>Ngày trả</th>
+                                    <th>Đánh giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>tk_demo_gv</td>
+                                    <td>Luyện giải bộ đề Tiếng Anh lớp 9</td>
+                                    <td>01/06/2025</td>
+                                    <td>05/06/2025</td>
+                                    <td>
+                                        <button class="btn btn-success btn-xs btn-rate">
+                                            ⭐ Đánh giá
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 🟥 Quá hạn -->
+                <div id="tab-quahan" class="subtab-content" style="display:none;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-center">
+                            <thead>
+                                <tr class="danger">
+                                    <th style="width:20px;"><input type="checkbox"></th>
+                                    <th>Thành viên</th>
+                                    <th>Nhan đề</th>
+                                    <th>Ngày mượn</th>
+                                    <th>Hạn trả</th>
+                                    <th>Ngày hiện tại</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>tk_demo_hs</td>
+                                    <td>Thuật toán nâng cao</td>
+                                    <td>01/06/2025</td>
+                                    <td>05/06/2025</td>
+                                    <td>07/06/2025</td>
+                                    <td><button class="btn btn-danger btn-xs">Liên hệ</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div> <!-- /subtab-container -->
+
+
+            <!-- ✅ Phân trang -->
+            <div class="text-right">
+                <ul class="pagination pagination-sm" style="margin:0;">
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
             </div>
-            <div id="muonTraList" class="muontra-pagination"></div>
+
+        </div>
+        </div>
+
+
+<!-- MODAL ĐĂNG KÝ MƯỢN SÁCH TRỰC TIẾP -->
+<div class="modal fade" id="muonSachModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header bg-success text-white">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-book"></i> Mượn Sách</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+
+                    <!-- ✅ Cột trái: Thông tin bạn đọc -->
+                    <div class="col-md-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>Thông tin bạn đọc</strong>
+                                <span class="pull-right text-muted">
+                                    Danh sách đăng ký mượn (<span id="soSachDangKy">0</span> cuốn)
+                                </span>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <!-- ✅ Chọn sách -->
+                                <div class="form-group">
+                                    <label for="chonSach">Chọn sách muốn mượn</label>
+                                    <select id="chonSach" class="form-control">
+                                        <option value="">-- Chọn sách --</option>
+                                        <option value="SGK001" data-bia="https://via.placeholder.com/40x55" data-dkcb="SGK001">Sách giáo khoa Toán 9 – Tập 1</option>
+                                        <option value="SGK002" data-bia="https://via.placeholder.com/40x55" data-dkcb="SGK002">Sách giáo khoa Toán 9 – Tập 2</option>
+                                        <option value="VH001" data-bia="https://via.placeholder.com/40x55" data-dkcb="VH001">Ngữ Văn 9 – Tập 1</option>
+                                        <option value="VH002" data-bia="https://via.placeholder.com/40x55" data-dkcb="VH002">Ngữ Văn 9 – Tập 2</option>
+                                        <option value="LS001" data-bia="https://via.placeholder.com/40x55" data-dkcb="LS001">Lịch sử 9</option>
+                                        <option value="DL001" data-bia="https://via.placeholder.com/40x55" data-dkcb="DL001">Địa lý 9</option>
+                                    </select>
+                                </div>
+
+                                <!-- ✅ Bảng danh sách sách mượn -->
+                                <div class="table-responsive" id="bangSachMuonWrapper" style="display:none; margin-top:15px;">
+                                    <table class="table table-bordered table-hover text-center" id="bangSachMuon">
+                                        <thead>
+                                            <tr class="info">
+                                                <th>STT</th>
+                                                <th>Nhân đề</th>
+                                                <th>Số ĐKCB</th>
+                                                <th>Bìa</th>
+                                                <th>Số ngày mượn</th>
+                                                <th>Ngày trả</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ✅ Cột phải: Thông tin thành viên -->
+                    <div class="col-md-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"><strong>Thông tin thành viên</strong></div>
+                            <div class="panel-body">
+                                <p><strong> Demo </strong></p>
+                                <p><small>Lớp/Tổ:</small> Giáo viên</p>
+                                <p><small>Niên khóa:</small> 2024/2025</p>
+                                <p><small>Ngày sinh:</small> --</p>
+                                <p><small>Giới tính:</small> Nữ</p>
+                                <button class="btn btn-danger btn-block" data-dismiss="modal">Thoát</button>
+                            </div>
+                        </div>
+
+                        <!-- ✅ Tóm tắt -->
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p><strong>Tổng số sách:</strong> <span id="tongSach">0</span></p>
+                                <p><strong>Số ngày mượn:</strong> <span id="soNgayMuon">7</span></p>
+                                <p><strong>Ngày trả:</strong> <span id="ngayTra">--/--/----</span></p>
+                                <button id="btnXacNhanMuon" class="btn btn-success btn-block">
+                                    <i class="fa fa-check"></i> Xác nhận mượn
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
+
+<!--MODAL ĐĂNG KÝ MƯỢN SÁCH-->
+    <!-- 🪪 Modal Đăng ký mới -->
+    <div class="modal fade" id="modalDangKyMoi" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title" id="modalLabel">📘 Đăng ký số mới</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formDangKyMoi">
+                        <div class="form-group">
+                            <label>Thành viên</label>
+                            <input type="text" id="dkThanhVien" class="form-control" placeholder="Nhập tên thành viên...">
+                        </div>
+                        <div class="form-group">
+                            <label>Nhan đề</label>
+                            <input type="text" id="dkNhanDe" class="form-control" placeholder="Nhập tên nhan đề...">
+                        </div>
+                        <div class="form-group">
+                            <label>Số ĐKCB</label>
+                            <input type="text" id="dkSoDKCB" class="form-control" placeholder="VD: DK12345">
+                        </div>
+                        <div class="form-group">
+                            <label>Ảnh bìa (URL)</label>
+                            <input type="text" id="dkBia" class="form-control" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                            <select id="dkTrangThai" class="form-control">
+                                <option value="Chờ duyệt">Chờ duyệt</option>
+                                <option value="Đã xác nhận">Đã xác nhận</option>
+                                <option value="Đã hủy">Đã hủy</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="btnLuuDangKyMoi" class="btn btn-primary">💾 Lưu</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">❌ Đóng</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<!-- MODAL TRẢ SÁCH TRỰC TIẾP-->
+
+<div class="modal fade" id="traSachModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-undo"></i> Trả Sách</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+
+                    <!-- ✅ Cột trái -->
+                    <div class="col-md-8">
+
+                        <!-- DANH SÁCH ĐANG MƯỢN -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>Danh sách đang mượn (3 cuốn)</strong>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-bordered table-hover text-center">
+                                    <thead>
+                                        <tr class="info">
+                                            <th>Nhân đề</th>
+                                            <th>Bìa sách</th>
+                                            <th>Số ĐKCB</th>
+                                            <th>Ngày hết hạn</th>
+                                            <th>Hiệu lực</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Phát triển năng lực Ngữ văn 7</td>
+                                            <td><img src="https://via.placeholder.com/40x55" class="img-thumbnail"></td>
+                                            <td>STK0007</td>
+                                            <td>11/06/2025</td>
+                                            <td><span class="text-success">Còn 3 ngày</span></td>
+                                            <td><button class="btn btn-xs btn-success btnChonTra">Trả sách</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sách giáo khoa Ngữ văn 7 - Tập 2 Cánh Diều</td>
+                                            <td><img src="https://via.placeholder.com/40x55" class="img-thumbnail"></td>
+                                            <td>SGK0054</td>
+                                            <td>11/06/2025</td>
+                                            <td><span class="text-success">Còn 3 ngày</span></td>
+                                            <td><button class="btn btn-xs btn-success btnChonTra">Trả sách</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sách giáo khoa Toán 7 - Tập 1 Cánh Diều</td>
+                                            <td><img src="https://via.placeholder.com/40x55" class="img-thumbnail"></td>
+                                            <td>SGK0053</td>
+                                            <td>11/06/2025</td>
+                                            <td><span class="text-success">Còn 3 ngày</span></td>
+                                            <td><button class="btn btn-xs btn-success btnChonTra">Trả sách</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- XÁC NHẬN SÁCH TRẢ -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong>Xác nhận sách trả</strong></div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover text-center" id="bangSachTra">
+                                        <thead>
+                                            <tr class="info">
+                                                <th>STT</th>
+                                                <th>Nhân đề</th>
+                                                <th>Số ĐKCB</th>
+                                                <th>Bìa</th>
+                                                <th>Ngày hết hạn</th>
+                                                <th>Hiệu lực</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Hàng thêm động -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ✅ Cột phải -->
+                    <div class="col-md-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"><strong>Thông tin thành viên</strong></div>
+                            <div class="panel-body text-center">
+                                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" width="70" class="img-circle">
+                                <p><strong>Tài khoản demo </strong></p>
+                                <p><small>Lớp/Tổ:</small> Giáo viên</p>
+                                <p><small>Niên khóa:</small> 2024/2025</p>
+                                <p><small>Ngày sinh:</small> --</p>
+                                <p><small>Giới tính:</small> Nam</p>
+                                <button class="btn btn-danger btn-block" data-dismiss="modal">Thoát</button>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-body text-center">
+                                <p><strong>Tổng số sách:</strong> <span id="tongSachTra">0</span></p>
+                                <p><strong>Ngày trả:</strong> <span id="ngayTraThucTe">07/06/2025</span></p>
+                                <button id="btnXacNhanTra" class="btn btn-primary btn-block">
+                                    <i class="fa fa-check"></i> Xác nhận trả
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- MODAL XÁC NHẬN MƯỢN -->
+<div class="modal fade" id="xacNhanMuonModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success" style="color:#fff;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-check-circle"></i> Xác nhận mượn</h4>
+            </div>
+            <div class="modal-body" style="font-size:14px;">
+                <p><strong>Thành viên:</strong> <span id="tenThanhVien"></span></p>
+                <p><strong>Tên sách:</strong> <span id="tenSach"></span></p>
+                <p><strong>Số ĐKCB:</strong> <span id="soDKCB"></span></p>
+                <hr>
+                <p>Bạn có chắc muốn xác nhận cho mượn sách này?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" id="btnXacNhanMuon">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- 🌟 MODAL ĐÁNH GIÁ SÁCH -->
+    <div class="modal fade" id="modalDanhGia" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header bg-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">⭐ Đánh giá sách</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formDanhGia">
+                        <div class="form-group">
+                            <label>Tên sách:</label>
+                            <input type="text" id="bookName" class="form-control" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Chấm điểm:</label>
+                            <select id="ratingScore" class="form-control">
+                                <option value="5">⭐⭐⭐⭐⭐ - Rất hay</option>
+                                <option value="4">⭐⭐⭐⭐ - Hay</option>
+                                <option value="3">⭐⭐⭐ - Tạm ổn</option>
+                                <option value="2">⭐⭐ - Chưa ấn tượng</option>
+                                <option value="1">⭐ - Không thích</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nhận xét:</label>
+                            <textarea id="ratingComment" class="form-control" rows="3" placeholder="Viết vài dòng cảm nhận..."></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-success" id="btnLuuDanhGia">💾 Lưu đánh giá</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 🌟 MODAL LIÊN HỆ NHẮC TRẢ -->
+    <div class="modal fade" id="modalLienHe" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">📩 Gửi nhắc nhở trả sách</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formLienHe">
+                        <div class="form-group">
+                            <label>Thành viên:</label>
+                            <input type="text" id="lhTenThanhVien" class="form-control" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nhan đề sách:</label>
+                            <input type="text" id="lhTenSach" class="form-control" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nội dung gửi:</label>
+                            <textarea id="lhNoiDung" class="form-control" rows="4"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button class="btn btn-danger" id="btnGuiLienHe">📤 Gửi</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 
     <!-- ====== TAB 2: CHÍNH SÁCH ====== -->
     <div id="chinh-sach-tab" class="tab-content">
         <div class="policy-container">
-            <h2>📘 Chính Sách – Hạn ngạch – Chế tài</h2>
+            <h2>📘 CHÍNH SÁCH – HẠN NGHẠCH – CHẾ TÀI</h2>
 
             <!-- 🌟 III.1 - Khai báo chính sách mượn -->
             <details class="policy-section" open>
@@ -310,7 +905,7 @@
 
     <!-- ===== TAB 3: QUẢN LÝ THẺ & LỊCH THƯ VIỆN ===== -->
     <div id="lich-tab" class="tab-content">
-        <h2>📅 Quản lý Thẻ & Lịch Thư Viện</h2>
+        <h2>📅 QUẢN LÝ THẺ & LỊCH THƯ VIỆN</h2>
 
         <!-- 🔹 1. Thống kê nhanh -->
         <div class="summary-cards">
@@ -385,6 +980,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <audio id="scanSound" src="https://assets.mixkit.co/sfx/preview/mixkit-barcode-scanner-beep-933.mp3"></audio>

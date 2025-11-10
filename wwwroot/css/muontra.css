@@ -1,4 +1,5 @@
-﻿/* ============================
+﻿
+/* ============================
    🎯 TAB CHÍNH (Mượn - Trả / Chính sách / Lịch - Thẻ)
    ============================ */
 
@@ -7,8 +8,6 @@
     max-width: 1100px;
     margin: 0 auto 25px auto;
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     overflow: hidden;
     font-family: "Segoe UI", sans-serif;
     margin-top: 50px;
@@ -314,29 +313,89 @@
         border: 1px solid #d3e3ff;
     }
 
+/* ================================
+   📄 FOOTER ACTION BUTTONS
+================================ */
+.footer-section-4 {
+    display: flex;
+    justify-content: flex-end; /* Đưa nút sang phải */
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+}
+
+    /* ===== Nút chung ===== */
+    .footer-section-4 button {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+/* ===== Nút In biên nhận ===== */
+.btn-receipt {
+    background-color: #007bff;
+    color: white;
+}
+
+    .btn-receipt:hover {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+    }
+
+/* ===== Nút Bỏ qua phạt ===== */
+.btn-penalty {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .btn-penalty:hover {
+        background-color: #b02a37;
+        transform: translateY(-1px);
+    }
+
+/* ===== Hiệu ứng khi nhấn ===== */
+.footer-section-4 button:active {
+    transform: scale(0.97);
+}
+
+
+
+
 
 /* ===== 🎯 TAB 2 – CHÍNH SÁCH ===== */
 #chinh-sach-tab {
     padding: 20px 0;
     font-family: "Segoe UI", sans-serif;
     color: #333;
+    display: none; /* Ẩn khi chưa được chọn */
+    animation: fadeIn 0.4s ease;
 }
 
     #chinh-sach-tab .policy-container {
         background: #fff;
         padding: 25px 30px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        max-width: 950px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        max-width: 900px;
         margin: 0 auto;
-        animation: fadeIn 0.4s ease;
     }
 
     #chinh-sach-tab h2 {
         text-align: center;
         color: #1a4ca0;
-        font-size: 20px;
-        margin-bottom: 25px;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 28px;
     }
 
     /* ==== Các khối chính sách ==== */
@@ -344,21 +403,31 @@
         background: #f9fbff;
         border: 1px solid #dbe6ff;
         border-radius: 10px;
-        margin-bottom: 16px;
-        padding: 10px 16px;
+        margin-bottom: 18px;
+        padding: 10px 18px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         transition: all 0.25s ease;
     }
+
+        #chinh-sach-tab .policy-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
 
         #chinh-sach-tab .policy-section summary {
             font-weight: 600;
             color: #0d47a1;
             cursor: pointer;
             font-size: 15px;
-            padding: 6px 0;
+            padding: 8px 0;
             list-style: none;
+            position: relative;
             transition: color 0.25s;
         }
+
+            #chinh-sach-tab .policy-section summary::marker {
+                display: none;
+            }
 
         #chinh-sach-tab .policy-section[open] summary {
             color: #0056d6;
@@ -385,12 +454,62 @@
         font-size: 14px;
         outline: none;
         transition: 0.2s;
+        background: #fff;
     }
 
         #chinh-sach-tab .input-box:focus {
             border-color: #007bff;
             box-shadow: 0 0 0 2px rgba(0,123,255,0.15);
         }
+
+    /* ==== Nút lưu / thao tác ==== */
+    #chinh-sach-tab .btn-save {
+        display: inline-block;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 5px;
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+        #chinh-sach-tab .btn-save:hover {
+            background: #0056d6;
+            transform: translateY(-1px);
+        }
+
+    #chinh-sach-tab .btn-info,
+    #chinh-sach-tab .btn-primary {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 6px;
+        color: #fff;
+        font-weight: 500;
+        font-size: 14px;
+        margin-right: 10px;
+        cursor: pointer;
+        border: none;
+        transition: 0.25s ease;
+    }
+
+    #chinh-sach-tab .btn-info {
+        background: #17a2b8;
+    }
+
+    #chinh-sach-tab .btn-primary {
+        background: #007bff;
+    }
+
+    #chinh-sach-tab .btn-info:hover {
+        background: #138496;
+    }
+
+    #chinh-sach-tab .btn-primary:hover {
+        background: #0056b3;
+    }
 
     /* ==== Ô kết quả / tóm tắt ==== */
     #chinh-sach-tab .summary-box {
@@ -401,7 +520,12 @@
         border-radius: 6px;
         font-size: 14px;
         color: #004085;
+        display: none;
     }
+
+        #chinh-sach-tab .summary-box.active {
+            display: block;
+        }
 
 /* ==== Hiệu ứng mở mượt ==== */
 @keyframes fadeIn {
@@ -415,6 +539,7 @@
         transform: translateY(0);
     }
 }
+
 /* ===== 🎯 TAB 3 – QUẢN LÝ THẺ & LỊCH THƯ VIỆN ===== */
 #lich-tab {
     font-family: "Segoe UI", sans-serif;
@@ -558,4 +683,245 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ===== BIÊN NHẬN MƯỢN SÁCH ===== */
+
+.receipt-container {
+    width: 420px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-family: "Arial", sans-serif;
+    background-color: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+    .receipt-container h3 {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+
+    .receipt-container hr {
+        border: none;
+        border-top: 1px solid #aaa;
+        margin: 10px 0;
+    }
+
+    .receipt-container p {
+        margin: 6px 0;
+        font-size: 14px;
+        color: #333;
+    }
+
+        .receipt-container p strong {
+            color: #000;
+        }
+
+    .receipt-container .note {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #777;
+    }
+
+
+
+
+
+/* ===== MODAL XÁC NHẬN MƯỢN ===== */
+
+#xacNhanMuonModal .modal-content {
+    border-radius: 8px;
+    border: 1px solid #28a745;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeInScale 0.25s ease-in-out;
+}
+
+#xacNhanMuonModal .modal-header {
+    background-color: #28a745;
+    color: #fff;
+    border-bottom: none;
+    padding: 12px 15px;
+}
+
+    #xacNhanMuonModal .modal-header .close {
+        color: #fff;
+        opacity: 0.9;
+    }
+
+#xacNhanMuonModal .modal-title i {
+    margin-right: 6px;
+}
+
+#xacNhanMuonModal .modal-body {
+    font-size: 14px;
+    color: #333;
+    padding: 20px;
+    background-color: #fafafa;
+}
+
+    #xacNhanMuonModal .modal-body p {
+        margin-bottom: 8px;
+    }
+
+    #xacNhanMuonModal .modal-body span {
+        color: #000;
+        font-weight: bold;
+    }
+
+#xacNhanMuonModal .modal-footer {
+    border-top: 1px solid #eee;
+    padding: 10px 15px;
+}
+
+#xacNhanMuonModal .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+    #xacNhanMuonModal .btn-success:hover {
+        background-color: #218838;
+    }
+
+#xacNhanMuonModal .btn-default:hover {
+    background-color: #e9ecef;
+}
+
+/* Hiệu ứng mở modal nhẹ */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 🌟 Giao diện modal */
+#modalDangKyMoi .modal-dialog {
+    max-width: 600px;
+    margin-top: 80px;
+}
+
+#modalDangKyMoi .modal-content {
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    border: none;
+    overflow: hidden;
+    animation: fadeInScale 0.3s ease-in-out;
+}
+
+/* 🌟 Header */
+#modalDangKyMoi .modal-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    padding: 15px 20px;
+    border-bottom: none;
+}
+
+    #modalDangKyMoi .modal-header .close {
+        color: #fff;
+        opacity: 0.8;
+        font-size: 24px;
+    }
+
+        #modalDangKyMoi .modal-header .close:hover {
+            opacity: 1;
+        }
+
+/* 🌟 Body */
+#modalDangKyMoi .modal-body {
+    padding: 25px;
+    background: #fafafa;
+}
+
+#modalDangKyMoi .form-group label {
+    font-weight: bold;
+    color: #333;
+}
+
+#modalDangKyMoi .form-control {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.2s ease;
+}
+
+    #modalDangKyMoi .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+    }
+
+/* 🌟 Footer */
+#modalDangKyMoi .modal-footer {
+    background: #f1f1f1;
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#modalDangKyMoi .btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+    #modalDangKyMoi .btn-primary:hover {
+        background: linear-gradient(135deg, #0056b3, #004080);
+    }
+
+#modalDangKyMoi .btn-default {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    transition: background 0.3s;
+}
+
+    #modalDangKyMoi .btn-default:hover {
+        background: #f5f5f5;
+    }
+
+/* 🌟 Hiệu ứng mở modal */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+#tab-dangmuon table {
+    font-size: 13px;
+}
+
+#tab-dangmuon .label {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+}
+
+#tab-dangmuon .label-warning {
+    background-color: #f0ad4e;
+}
+
+#tab-dangmuon .label-danger {
+    background-color: #d9534f;
+}
+
+#tab-dangmuon tr:hover {
+    background-color: #f9f9f9;
 }

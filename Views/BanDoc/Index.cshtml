@@ -331,9 +331,10 @@
 								<option value="female">Nữ</option>
 							</select>
 
-							<label for="ageRange" style="font-weight:bold;">Độ tuổi:</label>
-							<input type="range" id="ageRange" min="10" max="60" value="60" style="width:150px;">
-							<span id="ageValue">60+</span>
+							<div style="display:flex; align-items:center; gap:5px;">
+								<label for="ageInput" style="font-weight:bold;">Độ tuổi:</label>
+								<input type="number" id="ageInput" name="age" min="6" max="80" value="18" style="width:60px; text-align:center;">
+							</div>
 						</div>
 
 						<!-- Cards thống kê với progress bar -->

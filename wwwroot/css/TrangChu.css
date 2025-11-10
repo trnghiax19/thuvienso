@@ -1,26 +1,55 @@
-﻿.row {
-    margin: 0px;
+﻿/* ========== NAV TABS ========== */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    background-color: #3875b6; /* Nền tab active */
+    color: #fff;
+    border-radius: 6px 6px 0 0;
 }
+
+.nav-tabs > li > a {
+    color:black;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+
+    .nav-tabs > li > a:hover {
+        color: #104e8b;
+    }
 
 /* ========== HERO SECTION ========== */
 .hero {
-    background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f') center/cover no-repeat;
     position: relative;
     color: white;
     text-align: center;
-    padding: 120px 15px;
+    padding: 40px 15px;
+    overflow: hidden;
 }
 
-    .hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.45);
-    }
+/* Video nền */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
 
+/* Lớp phủ tối */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Nội dung */
 .hero-content {
     position: relative;
     z-index: 2;
@@ -37,10 +66,12 @@
     margin-bottom: 25px;
 }
 
+
 /* ========== FEATURES ========== */
 .features {
-    margin: 60px auto;
-    max-width: 1100px;
+    margin: 50px auto;
+    background-color: #072a55;
+    padding: 30px 30px 60px 30px; /* trên, phải, dưới, trái */
 }
 
 .feature-box {
@@ -92,11 +123,12 @@
     .feature-box h4 {
         font-weight: bold;
         margin-top: 5px;
+        font-size:20px;
         color: #333;
     }
 
     .feature-box p {
-        color: #666;
+        color: #fff;
         font-size: 13px;
         line-height: 1.5;
     }
@@ -106,11 +138,13 @@
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 25px;
+    padding: 20px;
+    margin-bottom: 30px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    min-height: 420px;
 }
+
 
     .doc-card:hover {
         transform: translateY(-5px);
@@ -118,7 +152,7 @@
     }
 
     .doc-card img {
-        height: 160px;
+        height: 300px;
         width: 100%;
         object-fit: cover;
         margin-bottom: 10px;
@@ -138,3 +172,235 @@
         }
 
 
+.btn-tracuu {
+    background-color: #0066cc; /* Xanh biển hợp với chữ trắng */
+    color: #fff !important; /* Chữ trắng rõ nét */
+    border: none; /* Bỏ viền thô mặc định */
+    border-radius: 25px; /* Bo tròn mềm mại */
+    padding: 8px 20px; /* Khoảng cách trong nút hợp lý */
+    font-weight: 600; /* Chữ đậm hơn chút */
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+}
+
+    .btn-tracuu i {
+        margin-right: 6px;
+    }
+
+    .btn-tracuu:hover,
+    .btn-tracuu:focus {
+        background-color: #004c99; /* Tông xanh đậm hơn khi hover */
+        color: #fff;
+        text-decoration: none;
+        transform: translateY(-2px); /* Hiệu ứng nổi nhẹ khi hover */
+    }
+
+/* ===== FEATURE BOX ===== */
+.feature-box {
+    position: relative;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* nội dung dồn xuống đáy */
+    align-items: flex-start;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+/* Overlay mờ trên hình */
+.feature-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.25);
+    z-index: 1;
+}
+
+/* Nội dung hiển thị trên overlay */
+.feature-overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end; /* dồn xuống đáy */
+    height: 100%;
+}
+
+/* Tiêu đề */
+.feature-box h4 {
+    font-weight: bold;
+    margin: 5px 0;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Mô tả */
+.feature-box p {
+    color: #f9f9f9;
+    font-size: 14px;
+    font-weight:500;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+/* Hover card */
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* ===== THỐNG KÊ THƯ VIỆN SỐ ===== */
+.stats-section {
+    background: linear-gradient(135deg, #0a2a57, #1d5fbf);
+    color: #fff;
+    padding: 70px 15px;
+    text-align: center;
+}
+
+.stats-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stats-subtitle {
+    font-size: 16px;
+    margin-bottom: 50px;
+    opacity: 0.9;
+}
+
+.stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stat-box {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 25px 15px;
+    margin: 10px;
+    transition: all 0.3s ease;
+    min-width: 220px;
+}
+
+    .stat-box i {
+        font-size: 40px;
+        margin-bottom: 15px;
+        color: #ffdd57;
+    }
+
+    .stat-box h3 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #fff;
+    }
+
+    .stat-box p {
+        font-size: 15px;
+        color: #e0e0e0;
+    }
+
+    .stat-box:hover {
+        background: rgba(255,255,255,0.2);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+/* ===== THỐNG KÊ NGAY TRONG HERO ===== */
+.stats-inline {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    position: relative;
+    z-index: 2;
+}
+
+.stat-item {
+    text-align: center;
+    color: #fff;
+    min-width: 150px;
+    transition: all 0.3s ease;
+}
+
+/* --- Vòng tròn chứa icon --- */
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+    .stat-icon i {
+        font-size: 26px;
+        color: #104e8b; /* Màu xanh thương hiệu */
+        transition: all 0.3s ease;
+    }
+
+
+/* --- Số liệu và mô tả --- */
+.stat-item h3 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+.stat-item p {
+    font-size: 14px;
+    opacity: 0.95;
+    margin: 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .stats-inline {
+        gap: 30px;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+        .stat-icon i {
+            font-size: 22px;
+        }
+
+    .stat-item h3 {
+        font-size: 22px;
+    }
+}
+
+
+.animated-title {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease-out;
+}
+
+    .animated-title.show {
+        opacity: 1;
+        transform: translateY(0);
+    }

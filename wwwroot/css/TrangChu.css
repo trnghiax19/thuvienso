@@ -412,3 +412,196 @@ a.no-hover:focus {
     color: inherit !important;
     text-decoration: none !important;
 }
+
+
+
+
+
+/* VỀ CHÚNG TÔI styles ==================================*/
+
+/* Section Về Chúng Tôi */
+.about-us {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 60px 50px;
+    background-color: #a8d0e6; /* Màu xanh dương nhạt */
+    background: linear-gradient(to bottom left, #a8d0e6 , #ffffff );
+    border-radius: 30px 100px;
+    margin: 40px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-content {
+    flex: 1;
+    margin-right: 100px;
+    max-width: 600px; /* Giới hạn độ rộng */
+    flex-direction: column; 
+}
+
+    .about-content .section-title {
+        font-size: 25px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        line-height: 1.4;
+        position: relative; /* Đặt vị trí relative để có thể dùng 'top' */
+        top: -30px; /* Di chuyển tiêu đề lên trên */
+    }
+
+    .about-content .description {
+        font-size: 17px;
+        color: #555;
+        line-height: 1.8; /* Tăng khoảng cách giữa các dòng */
+        margin-bottom: 30px;
+        word-wrap: break-word; /* Đảm bảo văn bản xuống dòng hợp lý */
+        max-width: 100%; /* Đảm bảo văn bản sẽ chiếm hết không gian có sẵn */
+        hyphens: auto;
+    }
+    .about-content .subtitle {
+        font-size: 33px; /* Cỡ chữ cho câu thoại */
+        color: black; /* Màu cam nổi bật cho câu thoại */
+        margin-bottom: 25px;
+        font-weight: 600; /* Đảm bảo chữ đậm và nổi bật */
+    }
+.about-btn {
+    display: flex;
+    gap: 20px;
+}
+
+    .about-btn button {
+        background-color: #247CD8; /* Màu xanh dương nhạt */
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 20px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-weight:bold;
+    }
+
+        .about-btn button:hover {
+            background-color: #3b7d99;
+        }
+
+.about-image {
+    flex: 1;
+    height: 450px; /* Tăng chiều cao ảnh */
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+    .about-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Đảm bảo ảnh phủ đầy phần tử mà không bị méo */
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+        .about-image img:hover {
+            transform: scale(1.05); /* Phóng to ảnh khi hover */
+        }
+.highlight {
+    color: #ff5722;
+    font-weight: bold;
+}
+/* Responsive design */
+@media (max-width: 768px) {
+    .about-us {
+        flex-direction: column;
+        padding: 40px 20px;
+    }
+
+    .about-content {
+        margin-right: 0;
+        text-align: center;
+    }
+
+    .about-image {
+        height: 300px; /* Điều chỉnh chiều cao ảnh trên thiết bị di động */
+        margin-top: 20px;
+    }
+}
+
+
+
+/* THAM GIA styles ===========================*/
+/* Newsletter Section */
+#newsletter {
+    background: #ffcccb; /* Màu hồng nhạt */
+    background: linear-gradient(to top left, #a8d0e6, #ffffff );
+    padding: 100px 50px;
+    color: #fff;
+    text-align: center;
+    border-radius: 50% 50% 0 0; /* Bo góc cong trên */
+}
+
+#newsletter-content {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.8); /* Màu nền bán trong suốt */
+    padding: 30px;
+    border-radius: 15px;
+}
+
+#newsletter-title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+#newsletter-description {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+#newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#email-input {
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 250px;
+    outline: none;
+    color:black;
+}
+
+    #email-input:focus {
+        border-color: #ff5722;
+    }
+
+#subscribe-btn {
+    padding: 12px 25px;
+    background-color: #a8d0e6;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+    #subscribe-btn:hover {
+        background-color: #3b7d99;
+    }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #newsletter {
+        padding: 80px 30px;
+    }
+
+    #newsletter-content {
+        width: 100%;
+        padding: 20px;
+    }
+}

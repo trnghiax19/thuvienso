@@ -1064,117 +1064,94 @@ document.addEventListener("DOMContentLoaded", function () {
     renderReportTable();
 
 
-    // Dữ liệu kho
+    // 📦 Dữ liệu kho dự trữ
     let warehouseData = [
-        { name: "Sách JS nâng cao", status: "Trao đổi", quantity: 3, note: "Kho A" },
-        { name: "Sách Python cơ bản", status: "Bán", quantity: 2, note: "Kho B" }
+        { name: "Sách JS nâng cao", purpose: "Trao đổi", quantity: 3, note: "Kho A" },
+        { name: "Sách Python cơ bản", purpose: "Bán", quantity: 2, note: "Kho B" }
     ];
 
     const $warehouseTbody = $('#warehouseTable tbody');
 
+    // 🔄 Hàm render bảng
     function renderWarehouse(filter = "") {
         $warehouseTbody.empty();
         warehouseData.forEach((item, index) => {
-            if (filter && item.status !== filter) return;
+            if (filter && item.purpose !== filter) return;
             $warehouseTbody.append(`
             <tr>
                 <td>${item.name}</td>
-                <td>${item.status}</td>
+                <td>${item.purpose}</td>
                 <td>${item.quantity}</td>
-                <td>${item.note}</td>
+                <td>${item.note || ''}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning editWarehouse" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-sm btn-danger deleteWarehouse" data-index="${index}"> <i class="fa-solid fa-trash"></i></button>
+                    <button class="btn btn-sm btn-warning editWarehouse" data-index="${index}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger deleteWarehouse" data-index="${index}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `);
         });
     }
 
+    // 🔁 Hiển thị danh sách ban đầu
     renderWarehouse();
 
-    // Lọc tự động
+    // 🔍 Lọc theo mục đích
     $('#warehouseFilter').change(function () {
         renderWarehouse(this.value);
     });
 
+    // ➕ Thêm mới tài liệu
     $('#addWarehouseBtn').click(function () {
-        $('#warehouseForm')[0].reset();
-        $('#editing-index').val("");
-        $('#warehouseModal').modal('show');
+        $('#documentForm')[0].reset();
+        $('#documentIndex').val("");
+        $('#documentModal').modal('show');
     });
 
-    $('#save-warehouse').click(function () {
-        const idx = $('#editing-index').val();
+    // 💾 Lưu dữ liệu thêm / sửa
+    $('#documentForm').submit(function (e) {
+        e.preventDefault();
         const item = {
-            name: $('#wh-name').val().trim(),
-            status: $('#wh-status').val(),
-            quantity: parseInt($('#wh-quantity').val()),
-            note: $('#wh-note').val().trim()
+            name: $('#documentName').val().trim(),
+            purpose: $('#documentPurpose').val(),
+            quantity: parseInt($('#documentQuantity').val()),
+            note: $('#documentNote').val().trim()
         };
+        const idx = $('#documentIndex').val();
 
-        if (!item.name || !item.status || !item.quantity) {
+        if (!item.name || !item.purpose || !item.quantity) {
             alert("Vui lòng nhập đầy đủ thông tin");
             return;
         }
 
         if (idx === "") {
-            warehouseData.push(item); // Thêm mới
-        } else {
-            warehouseData[idx] = item; // Sửa
-        }
-
-        $('#warehouseModal').modal('hide');
-        renderWarehouse($('#warehouseFilter').val());
-    });
-
-    // Sửa
-    $(document).on('click', '.editWarehouse', function () {
-        const idx = $(this).data('index');
-        const item = warehouseData[idx];
-        $('#wh-name').val(item.name);
-        $('#wh-status').val(item.status);
-        $('#wh-quantity').val(item.quantity);
-        $('#wh-note').val(item.note);
-        $('#editing-index').val(idx);
-        $('#warehouseModal').modal('show');
-    });
-
-
-    // Lưu dữ liệu thêm / sửa
-    $('#warehouseForm').submit(function (e) {
-        e.preventDefault();
-        const item = {
-            name: $('#warehouseName').val().trim(),
-            status: $('#warehouseStatus').val(),
-            quantity: parseInt($('#warehouseQuantity').val()),
-            note: $('#warehouseNote').val().trim()
-        };
-        const idx = $('#warehouseIndex').val();
-        if (idx === "") {
-            // Thêm mới
+            // ➕ Thêm mới
             warehouseData.push(item);
         } else {
-            // Sửa
+            // ✏️ Cập nhật
             warehouseData[idx] = item;
         }
-        $('#warehouseModal').modal('hide');
+
+        $('#documentModal').modal('hide');
         renderWarehouse($('#warehouseFilter').val());
     });
 
-    // Sửa
+    // ✏️ Sửa tài liệu
     $(document).on('click', '.editWarehouse', function () {
         const idx = $(this).data('index');
         const item = warehouseData[idx];
-        $('#warehouseName').val(item.name);
-        $('#warehouseStatus').val(item.status);
-        $('#warehouseQuantity').val(item.quantity);
-        $('#warehouseNote').val(item.note);
-        $('#warehouseIndex').val(idx);
-        $('#warehouseModal').modal('show');
+        $('#documentName').val(item.name);
+        $('#documentPurpose').val(item.purpose);
+        $('#documentQuantity').val(item.quantity);
+        $('#documentNote').val(item.note);
+        $('#documentIndex').val(idx);
+        $('#documentModal').modal('show');
     });
 
-    // Xóa
+    // 🗑️ Xóa tài liệu
     $(document).on('click', '.deleteWarehouse', function () {
         const idx = $(this).data('index');
         if (confirm(`Xóa tài liệu "${warehouseData[idx].name}" khỏi kho?`)) {
@@ -2020,10 +1997,43 @@ document.addEventListener("DOMContentLoaded", function () {
         <td>${r.endingDebt.toLocaleString()}</td>
         <td>${r.dueDate}</td>
         <td><span class="label ${r.status.includes('Chưa') ? 'label-warning' : 'label-success'}">${r.status}</span></td>
-        <td>${r.reminder ? '<button class="btn btn-info btn-sm reminder">Nhắc hạn</button>' : '-'}</td>`;
+        <td>${r.reminder ? '<button class="btn btn-info btn-sm reminder"><i class="fa fa-bell"></i> </button>' : '-'}</td>`;
             reconcileBody.appendChild(tr);
         });
     }
+    // --- Xử lý nút "Nhắc hạn" trong bảng đối chiếu ---
+    $(document).on("click", ".reminder", function () {
+        const $btn = $(this);
+        const row = $btn.closest("tr");
+        const supplierName = row.find("td:first-child").text(); // Tên nhà cung cấp
+
+        Swal.fire({
+            title: "Gửi nhắc hạn?",
+            text: `Bạn có chắc muốn gửi nhắc hạn cho nhà cung cấp "${supplierName}" không?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Gửi nhắc",
+            cancelButtonText: "Huỷ"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Giả lập gửi thành công
+                Swal.fire({
+                    title: "Đã gửi!",
+                    text: `Đã gửi nhắc hạn tới nhà cung cấp "${supplierName}".`,
+                    icon: "success",
+                    timer: 1800,
+                    showConfirmButton: false
+                });
+
+                // Cập nhật giao diện nút
+                $btn
+                    .removeClass("btn-info")
+                    .addClass("btn-success")
+                    .attr("disabled", true)
+                    .html('<i class="fa fa-check"></i> ');
+            }
+        });
+    });
 
     // ====== CHỨC NĂNG ======
     renderInvoices();
@@ -2054,11 +2064,11 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#invoiceModal").modal("hide");
     });
 
-    // Nhắc hạn
-    $("#reconcile-body").on("click", ".reminder", function () {
-        const supplier = $(this).closest("tr").find("td:first").text();
-        alert("Đã gửi nhắc hạn cho " + supplier);
-    });
+    //// Nhắc hạn
+    //$("#reconcile-body").on("click", ".reminder", function () {
+    //    const supplier = $(this).closest("tr").find("td:first").text();
+    //    alert("Đã gửi nhắc hạn cho " + supplier);
+    //});
 
     // Lọc công nợ
     $("#filterSupplier").on("change", function () {

@@ -157,10 +157,6 @@
     color: #222;
 }
 
-/* ----- Action bar ----- */
-.modern-action-bar {
-    margin-bottom: 20px;
-}
 
 /* ----- Input ----- */
 .modern-input {
@@ -190,6 +186,7 @@
     .btn-gradient:hover {
         opacity: 0.9;
         transform: translateY(-1px);
+        color: #fff;
     }
 
 /* ----- Card cho bảng ----- */
@@ -267,8 +264,15 @@
 
 /* ----- Modern Action Bar ----- */
 .modern-action-bar {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
 }
+
+    .modern-action-bar .w-50 {
+        flex: 1; /* cho phép input tự co giãn */
+    }
 
 /* Inputs */
 .modern-input {
@@ -277,6 +281,7 @@
     height: 42px;
     border: 1px solid #ccc;
     transition: all 0.3s;
+    width: 100%;
 }
 
     .modern-input:focus {
@@ -298,6 +303,7 @@
     .btn-gradient-modern:hover {
         opacity: 0.9;
         transform: translateY(-1px);
+        color: #fff;
     }
 
 /* Modern Table Card */
@@ -338,6 +344,7 @@
     padding: 8px 14px;
     font-weight: 500;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    white-space: nowrap;
 }
 
 .modern-table-card {

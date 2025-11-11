@@ -17,7 +17,7 @@
 
     .profile-card:hover {
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-        transform: translateY(-3px);
+      
     }
 
 .avatar {
